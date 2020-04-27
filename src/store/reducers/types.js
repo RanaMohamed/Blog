@@ -1,0 +1,6 @@
+const TYPES = {
+	REGISTER_USER: 'REGISTER_USER',
+	REGISTER_USER_FAIL: 'REGISTER_USER_FAIL',
+};
+
+export default TYPES;
