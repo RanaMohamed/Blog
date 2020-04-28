@@ -11,11 +11,20 @@ export const registerUser = (user) => {
 					payload: data,
 				});
 			})
-			.catch((err) => {
+			.catch((errors) => {
 				dispatch({
 					type: TYPES.REGISTER_USER_FAIL,
-					payload: err.errors.errors,
+					payload: errors,
 				});
 			});
+	};
+};
+
+export const registerUserErrors = (errors) => {
+	return (dispatch) => {
+		dispatch({
+			type: TYPES.REGISTER_USER_FAIL,
+			payload: errors,
+		});
 	};
 };

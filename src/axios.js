@@ -13,7 +13,9 @@ instance.interceptors.response.use(
 			error.response?.data?.errors ? 'Check your data' : error.message
 		);
 		if (error.response?.data?.errors)
-			return Promise.reject(error.response.data);
+			return Promise.reject(error.response.data.errors.errors);
+
+		return Promise.reject({});
 	}
 );
 
