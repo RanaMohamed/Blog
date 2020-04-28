@@ -1,7 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/actions/userActions';
 
 const Header = () => {
+	const user = useSelector((state) => state.user.user);
+	const dispatch = useDispatch();
+	const logoutHandler = (e) => {
+		e.preventDefault();
+		dispatch(logout());
+	};
 	return (
 		<header className='header'>
 			<div className='container'>
@@ -27,32 +35,40 @@ const Header = () => {
 							<button className='btn'>Search</button>
 						</div>
 					</li>
-					<li className='navlink dropdown'>
-						<a href='/'>Profile</a>
-						<ul className='dropdown__body'>
-							<li>
-								<NavLink to='/profile' className='dropdown__item color-link'>
-									View profile
-								</NavLink>
-							</li>
-							<li>
-								<NavLink
-									to='/editProfile'
-									className='dropdown__item color-link'
-								>
-									Edit profile
-								</NavLink>
-							</li>
-							<li>
-								<a href='/' className='dropdown__item color-link'>
-									Logout
-								</a>
-							</li>
-						</ul>
-					</li>
-					<li className='navlink'>
-						<NavLink to='/login'>Login</NavLink>
-					</li>
+					{user && (
+						<li className='navlink dropdown'>
+							<a href='/'>{user.name}</a>
+							<ul className='dropdown__body'>
+								<li>
+									<NavLink to='/profile' className='dropdown__item color-link'>
+										View profile
+									</NavLink>
+								</li>
+								<li>
+									<NavLink
+										to='/editProfile'
+										className='dropdown__item color-link'
+									>
+										Edit profile
+									</NavLink>
+								</li>
+								<li>
+									<a
+										onClick={(e) => logoutHandler(e)}
+										href='/'
+										className='dropdown__item color-link'
+									>
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+					)}
+					{!user && (
+						<li className='navlink'>
+							<NavLink to='/login'>Login</NavLink>
+						</li>
+					)}
 				</ul>
 			</div>
 		</header>

@@ -12,7 +12,7 @@ instance.interceptors.response.use(
 		toastr.error(
 			error.response?.data?.errors ? 'Check your data' : error.message
 		);
-		if (error.response?.data?.errors)
+		if (error.response?.data?.errors?.errors)
 			return Promise.reject(error.response.data.errors.errors);
 
 		return Promise.reject({});

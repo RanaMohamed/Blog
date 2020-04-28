@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Joi from '@hapi/joi';
 import * as _ from 'lodash';
+
 import { registerUser, registerUserErrors } from '../store/actions/userActions';
+import { emailRegex } from '../helper';
 
 const Signup = (props) => {
 	const [user, setUser] = useState({ name: '', email: '', password: '' });
 
-	const errors = useSelector((state) => state.user.errors);
+	const errors = useSelector((state) => state.user.registerErrors);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (Object.keys(errors).length === 0)
 			setUser({ name: '', email: '', password: '' });
 	}, [errors]);
-
-	// eslint-disable-next-line no-useless-escape
-	const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	const schema = Joi.object({
 		name: Joi.string().required().messages({
@@ -59,7 +58,9 @@ const Signup = (props) => {
 				value={user.name}
 				onChange={(e) => setUser({ ...user, name: e.target.value })}
 			/>
-			<span className='error-message'>{errors['name']?.message}</span>
+			<span className='error-message'>
+				{errors['name']?.message || errors['name']?.msg}
+			</span>
 			<label htmlFor='sEmail'>Email</label>
 			<input
 				type='text'
@@ -70,7 +71,9 @@ const Signup = (props) => {
 				value={user.email}
 				onChange={(e) => setUser({ ...user, email: e.target.value })}
 			/>
-			<span className='error-message'>{errors['email']?.message}</span>
+			<span className='error-message'>
+				{errors['email']?.message || errors['email']?.msg}
+			</span>
 			<label htmlFor='sPassword'>Password</label>
 			<input
 				type='password'
@@ -81,7 +84,9 @@ const Signup = (props) => {
 				value={user.password}
 				onChange={(e) => setUser({ ...user, password: e.target.value })}
 			/>
-			<span className='error-message'>{errors['password']?.message}</span>
+			<span className='error-message'>
+				{errors['password']?.message || errors['password']?.msg}
+			</span>
 			<input type='submit' className='btn' value='Signup' />
 		</form>
 	);

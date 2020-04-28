@@ -377,6 +377,7 @@ body {
 }
 .author--vertical .author__img {
 	margin-bottom: 2rem;
+	margin-right: 0;
 }
 
 .pagination {

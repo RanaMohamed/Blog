@@ -8,7 +8,7 @@ export const registerUser = (user) => {
 			.then((data) => {
 				dispatch({
 					type: TYPES.REGISTER_USER,
-					payload: data,
+					payload: data.user,
 				});
 			})
 			.catch((errors) => {
@@ -26,5 +26,70 @@ export const registerUserErrors = (errors) => {
 			type: TYPES.REGISTER_USER_FAIL,
 			payload: errors,
 		});
+	};
+};
+
+export const loginUser = (user) => {
+	return (dispatch) => {
+		axios
+			.post('/users/login', user)
+			.then((data) => {
+				dispatch({
+					type: TYPES.LOGIN_USER,
+					payload: { user: data.user, token: data.token },
+				});
+			})
+			.catch((errors) => {
+				dispatch({
+					type: TYPES.LOGIN_USER_FAIL,
+					payload: errors,
+				});
+			});
+	};
+};
+
+export const loginUserErrors = (errors) => {
+	return (dispatch) => {
+		dispatch({
+			type: TYPES.LOGIN_USER_FAIL,
+			payload: errors,
+		});
+	};
+};
+
+export const loadUser = () => {
+	return (dispatch) => {
+		dispatch({
+			type: TYPES.LOAD_USER,
+		});
+	};
+};
+
+export const logout = () => {
+	delete axios.defaults.headers.common['authorization'];
+	return (dispatch) => {
+		dispatch({
+			type: TYPES.LOGOUT,
+		});
+	};
+};
+
+export const getUser = (token) => {
+	axios.defaults.headers.common['authorization'] = token;
+	return (dispatch) => {
+		axios
+			.get('/users/getUser')
+			.then((data) => {
+				dispatch({
+					type: TYPES.GET_USER,
+					payload: data.user,
+				});
+			})
+			.catch((errors) => {
+				dispatch({
+					type: TYPES.LOGIN_USER_FAIL,
+					payload: errors,
+				});
+			});
 	};
 };

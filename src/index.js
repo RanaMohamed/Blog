@@ -1,17 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
-import './css/main.css';
-import './css/toastr.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+import './css/main.css';
+import './css/toastr.min.css';
+
+import store from './store/store';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<ScrollToTop />
-			<App />
+			<Provider store={store}>
+				<App />
+			</Provider>
 		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById('root')
