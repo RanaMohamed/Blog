@@ -5,7 +5,7 @@ import toastr from './components/toastr';
 const instance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 instance.interceptors.response.use(
 	(response) => {
-		toastr.success(response.data.message);
+		response.data.message && toastr.success(response.data.message);
 		return response.data;
 	},
 	(error) => {

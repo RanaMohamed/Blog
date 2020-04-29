@@ -5,6 +5,7 @@ const initialState = {
 	token: '',
 	loginErrors: {},
 	registerErrors: {},
+	editErrors: {},
 };
 const userReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -49,6 +50,19 @@ const userReducer = (state = initialState, action) => {
 				...state,
 				user: null,
 				token: null,
+			};
+		}
+		case TYPES.EDIT_PROFILE: {
+			return {
+				...state,
+				user: action.payload.user,
+				editErrors: {},
+			};
+		}
+		case TYPES.EDIT_PROFILE_FAIL: {
+			return {
+				...state,
+				editErrors: action.payload,
 			};
 		}
 		default:

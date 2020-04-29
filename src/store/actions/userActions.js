@@ -93,3 +93,37 @@ export const getUser = (token) => {
 			});
 	};
 };
+
+export const editProfile = (user) => {
+	return (dispatch) => {
+		const fd = new FormData();
+		Object.keys(user).map((k) => fd.append(k, user[k]));
+		axios
+			.patch('/users', fd, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			})
+			.then((data) => {
+				dispatch({
+					type: TYPES.EDIT_PROFILE,
+					payload: { user: data.user },
+				});
+			})
+			.catch((errors) => {
+				dispatch({
+					type: TYPES.EDIT_PROFILE_FAIL,
+					payload: errors,
+				});
+			});
+	};
+};
+
+export const editProfileErrors = (errors) => {
+	return (dispatch) => {
+		dispatch({
+			type: TYPES.EDIT_PROFILE_FAIL,
+			payload: errors,
+		});
+	};
+};
