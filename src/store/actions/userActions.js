@@ -1,5 +1,6 @@
 import TYPES from '../reducers/types';
 import axios from '../../axios';
+import { convertToFormData } from '../../helper';
 
 export const registerUser = (user) => {
 	return (dispatch) => {
@@ -37,6 +38,10 @@ export const loginUser = (user) => {
 				dispatch({
 					type: TYPES.LOGIN_USER,
 					payload: { user: data.user, token: data.token },
+				});
+				dispatch({
+					type: TYPES.REDIRECT,
+					payload: '/',
 				});
 			})
 			.catch((errors) => {
@@ -87,8 +92,7 @@ export const getUser = (token) => {
 			})
 			.catch((errors) => {
 				dispatch({
-					type: TYPES.LOGIN_USER_FAIL,
-					payload: errors,
+					type: TYPES.LOGOUT,
 				});
 			});
 	};
@@ -96,8 +100,7 @@ export const getUser = (token) => {
 
 export const editProfile = (user) => {
 	return (dispatch) => {
-		const fd = new FormData();
-		Object.keys(user).map((k) => fd.append(k, user[k]));
+		const fd = convertToFormData(user);
 		axios
 			.patch('/users', fd, {
 				headers: {

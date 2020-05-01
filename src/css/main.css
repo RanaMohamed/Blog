@@ -169,7 +169,9 @@ h1,
 h2,
 .h2,
 h3,
-.h3 {
+.h3,
+h4,
+.h4 {
 	text-transform: uppercase;
 	color: #333333;
 	font-family: 'Josefin Sans';
@@ -196,10 +198,12 @@ h3,
 }
 
 blockquote {
-	border: 1px double rgba(0, 0, 0, 0.1);
-	padding: 6rem;
+	border: 1px double rgba(0, 0, 0, 0.1) !important;
+	padding: 6rem !important;
 	font-size: 1.8rem;
 	position: relative;
+	overflow: visible !important;
+	font-style: normal !important;
 }
 blockquote::before {
 	content: '\201D';
@@ -214,6 +218,15 @@ blockquote::before {
 	color: #ffffff;
 	font-size: 4rem;
 	line-height: 1.5;
+}
+
+i {
+	font-style: italic;
+}
+
+strong,
+b {
+	font-weight: bold;
 }
 
 body {
@@ -317,14 +330,18 @@ body {
 	margin: 2rem auto;
 }
 
+.article {
+	margin-bottom: 5rem;
+}
 .article__author {
 	margin: 1rem 0;
 }
-
 .article__img {
 	margin: 1rem 0;
 }
-
+.article__img img {
+	max-width: 100%;
+}
 .article__body {
 	margin: 2rem 0;
 }
@@ -342,9 +359,8 @@ body {
 	overflow: hidden;
 	-webkit-box-orient: vertical;
 }
-
 .article__tags {
-	margin-bottom: 5rem;
+	margin: 1rem 0;
 }
 .article__tags .tag {
 	display: inline-block;
@@ -367,6 +383,7 @@ body {
 	height: 10rem;
 	width: 10rem;
 	margin-right: 3rem;
+	flex: 1;
 }
 .author__desc {
 	margin: 2rem 0 3.6rem;

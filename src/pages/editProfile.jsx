@@ -77,8 +77,8 @@ const EditProfile = () => {
 							<img src={imgUrl} alt='' />
 							<input
 								type='file'
-								name=''
-								id=''
+								name='imgUrl'
+								id='imgUrl'
 								onChange={(e) =>
 									setEdited({ ...edited, imgUrl: e.target.files[0] })
 								}

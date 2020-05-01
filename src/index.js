@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 
 import './css/main.css';
 import './css/toastr.min.css';
+import './css/style.css';
 
 import store from './store/store';
 

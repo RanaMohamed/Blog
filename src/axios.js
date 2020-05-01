@@ -9,6 +9,7 @@ instance.interceptors.response.use(
 		return response.data;
 	},
 	(error) => {
+		debugger;
 		toastr.error(
 			error.response?.data?.errors ? 'Check your data' : error.message
 		);

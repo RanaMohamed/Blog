@@ -1,8 +1,11 @@
 import React from 'react';
 import Pagination from '../components/pagination';
 import Article from '../components/article';
+import { useSelector } from 'react-redux';
+import { url } from '../helper';
 
 const Profile = () => {
+	const user = useSelector((state) => state.user.user);
 	return (
 		<React.Fragment>
 			<section className='cover-section'></section>
@@ -11,18 +14,13 @@ const Profile = () => {
 					<div className='author author--vertical'>
 						<img
 							className='author__img'
-							src='https://mksdmcdn-9b59.kxcdn.com/typology/wp-content/uploads/2017/03/madison_barnett-100x100.jpg'
+							src={url + '/' + user?.imgUrl}
 							alt=''
 						/>
 						<h3 className='author__name underlined underlined--sm'>
-							Madison Barnett
+							{user?.name}
 						</h3>
-						<p className='author__desc text-center'>
-							I get my inspiration from the fictional world. I'm a social geek.
-							Completely exploit 24/365 catalysts for change whereas high
-							standards in action items. Conveniently whiteboard multifunctional
-							benefits without enabled leadership.
-						</p>
+						<p className='author__desc text-center'>{user?.desc}</p>
 						<div className='btns-row underlined'>
 							<button className='btn btn--outline'>Follow Author</button>
 						</div>

@@ -1,0 +1,7 @@
+.ck-content > * {
+	margin-bottom: 3.6rem;
+}
+
+.ck-editor__editable_inline {
+	max-height: 500px;
+}

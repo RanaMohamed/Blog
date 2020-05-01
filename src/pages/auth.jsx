@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Login from '../components/login';
 import Signup from '../components/signup';
-import { useSelector } from 'react-redux';
 
-const Auth = (props) => {
-	const token = useSelector((state) => state.user.token);
-
-	useEffect(() => {
-		if (token) {
-			props.history.replace('/');
-		}
-	}, [token, props]);
-
+const Auth = () => {
 	return (
 		<React.Fragment>
 			<section className='cover-section'></section>
