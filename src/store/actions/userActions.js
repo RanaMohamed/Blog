@@ -98,6 +98,34 @@ export const getUser = (token) => {
 	};
 };
 
+export const removeProfile = () => {
+	return (dispatch) => {
+		dispatch({
+			type: TYPES.GET_PROFILE,
+			payload: null,
+		});
+	};
+};
+
+export const getProfile = (id) => {
+	return (dispatch) => {
+		axios
+			.get(`/users/getUser/${id}`)
+			.then((data) => {
+				dispatch({
+					type: TYPES.GET_PROFILE,
+					payload: data.user,
+				});
+			})
+			.catch((errors) => {
+				dispatch({
+					type: TYPES.REDIRECT,
+					payload: '/',
+				});
+			});
+	};
+};
+
 export const editProfile = (user) => {
 	return (dispatch) => {
 		const fd = convertToFormData(user);

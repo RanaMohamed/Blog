@@ -42,7 +42,7 @@ const Header = () => {
 								<ul className='dropdown__body'>
 									<li>
 										<NavLink
-											to='/profile'
+											to={`/profile/${user._id}`}
 											className='dropdown__item color-link'
 										>
 											View profile

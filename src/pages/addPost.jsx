@@ -8,7 +8,6 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import { addArticle, editArticleErrors } from '../store/actions/articleActions';
 import { url } from '../helper';
-import { useHistory } from 'react-router';
 
 const AddPost = () => {
 	const [edited, setEdited] = useState({
@@ -29,14 +28,8 @@ const AddPost = () => {
 	}, [edited.imgUrl]);
 
 	const errors = useSelector((state) => state.user.editErrors);
-	const redirectTo = useSelector((state) => state.route.redirectTo);
 
 	const dispatch = useDispatch();
-	const history = useHistory();
-
-	useEffect(() => {
-		if (redirectTo) history.replace(redirectTo);
-	}, [redirectTo]);
 
 	const schema = Joi.object({
 		title: Joi.string().required().messages({

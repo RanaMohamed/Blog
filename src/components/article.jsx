@@ -20,7 +20,7 @@ const Article = (props) => {
 			</h1>
 			<div className='article__author'>
 				By{' '}
-				<Link to='/profile' className='underline-link'>
+				<Link to={`/profile/${author?._id}`} className='underline-link'>
 					{author?.name}
 				</Link>
 			</div>

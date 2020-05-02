@@ -29,7 +29,10 @@ const SingleArticle = (props) => {
 						<h1 className=''>{article.title}</h1>
 						<div className=''>
 							By{' '}
-							<Link to='/profile' className='underline-link'>
+							<Link
+								to={`/profile/${article.author?._id}`}
+								className='underline-link'
+							>
 								{article.author?.name}
 							</Link>{' '}
 							/ {new Date(article.updatedAt).toDateString()}
@@ -54,16 +57,18 @@ const SingleArticle = (props) => {
 					</div>
 					<h3 className='text-center underlined'>About the author</h3>
 					<div className='author'>
-						<img
-							className='author__img'
-							src={url + '/' + article.author?.imgUrl}
-							alt=''
-						/>
+						<div className='author__img'>
+							<img
+								className='author__img'
+								src={url + '/' + article.author?.imgUrl}
+								alt=''
+							/>
+						</div>
 						<div>
 							<h3 className='author__name'>{article.author?.name}</h3>
 							<p className='author__desc'>{article.author?.desc}</p>
 							<div className='btns-row'>
-								<Link to='/profile' className='btn'>
+								<Link to={`/profile/${article.author?._id}`} className='btn'>
 									View profile
 								</Link>
 								<button className='btn btn--outline'>Follow Author</button>

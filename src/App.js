@@ -18,16 +18,22 @@ function App() {
 	const token = useSelector((state) => state.user.token);
 	const user = useSelector((state) => state.user.user);
 
+	const redirectTo = useSelector((state) => state.route.redirectTo);
+
+	const history = useHistory();
 	const dispatch = useDispatch();
+
 	useEffect(() => {
 		dispatch(loadUser());
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (token && !user) dispatch(getUser(token));
-	}, [token, user, dispatch]);
+		if (token) dispatch(getUser(token));
+	}, [token]);
 
-	const history = useHistory();
+	useEffect(() => {
+		if (redirectTo) history.replace(redirectTo);
+	}, [redirectTo]);
 
 	useEffect(() => {
 		dispatch(clearRedirectTo());
@@ -41,14 +47,14 @@ function App() {
 				<ProtectedRoute path='/addPost' component={AddPost}></ProtectedRoute>
 				{/* <Route path='/addPost' component={AddPost}></Route> */}
 				<ProtectedRoute
-					path='/profile/:id?'
+					path='/profile/:id'
 					component={Profile}
 				></ProtectedRoute>
 				<ProtectedRoute
 					path='/editProfile'
 					component={EditProfile}
 				></ProtectedRoute>
-				<Route path='/article/:id?' component={SingleArticle}></Route>
+				<Route path='/article/:id' component={SingleArticle}></Route>
 				<Route path='/' component={Home}></Route>
 			</Switch>
 		</div>

@@ -2,6 +2,7 @@ import TYPES from './types';
 
 const initialState = {
 	user: null,
+	profile: null,
 	token: '',
 	loginErrors: {},
 	registerErrors: {},
@@ -42,6 +43,12 @@ const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				user: action.payload,
+			};
+		}
+		case TYPES.GET_PROFILE: {
+			return {
+				...state,
+				profile: action.payload,
 			};
 		}
 		case TYPES.LOGOUT: {

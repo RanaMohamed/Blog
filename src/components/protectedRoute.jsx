@@ -3,12 +3,12 @@ import { Route, Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-	const user = useSelector((state) => state.user.user);
+	const token = useSelector((state) => state.user.token);
 	return (
 		<Route
 			{...rest}
 			render={(props) =>
-				user ? (
+				token ? (
 					<Component {...props} />
 				) : (
 					<Redirect to={{ pathname: '/', state: { from: props.location } }} />

@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Pagination from '../components/pagination';
-import Article from '../components/article';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { url } from '../helper';
+import { getProfile, removeProfile } from '../store/actions/userActions';
 
-const Profile = () => {
-	const user = useSelector((state) => state.user.user);
+const Profile = (props) => {
+	const user = useSelector((state) => state.user.profile);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getProfile(props.match.params.id));
+
+		return () => dispatch(removeProfile());
+	}, []);
+
 	return (
 		<React.Fragment>
 			<section className='cover-section'></section>
@@ -25,10 +33,10 @@ const Profile = () => {
 							<button className='btn btn--outline'>Follow Author</button>
 						</div>
 					</div>
+					{/* <Article></Article>
 					<Article></Article>
 					<Article></Article>
-					<Article></Article>
-					<Article></Article>
+					<Article></Article> */}
 					<Pagination></Pagination>
 				</div>
 			</section>

@@ -383,8 +383,8 @@ body {
 	height: 10rem;
 	width: 10rem;
 	margin-right: 3rem;
-	flex: 1;
 }
+
 .author__desc {
 	margin: 2rem 0 3.6rem;
 }
@@ -395,6 +395,7 @@ body {
 .author--vertical .author__img {
 	margin-bottom: 2rem;
 	margin-right: 0;
+	flex: auto;
 }
 
 .pagination {
