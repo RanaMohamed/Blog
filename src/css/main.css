@@ -280,6 +280,9 @@ body {
 .btns-row .btn {
 	margin-right: 1rem;
 }
+.btn:disabled {
+	opacity: 0.7;
+}
 
 .color-link {
 	transition: 0.1s;
@@ -384,7 +387,6 @@ body {
 	width: 10rem;
 	margin-right: 3rem;
 }
-
 .author__desc {
 	margin: 2rem 0 3.6rem;
 }

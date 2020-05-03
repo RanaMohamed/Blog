@@ -1,19 +1,24 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/actions/userActions';
 
 const Header = () => {
 	const user = useSelector((state) => state.user.user);
+
 	const dispatch = useDispatch();
+
 	const logoutHandler = (e) => {
 		e.preventDefault();
 		dispatch(logout());
 	};
+
 	return (
 		<header className='header'>
 			<div className='container'>
-				<div className='logo'>LOGO.</div>
+				<div className='logo'>
+					<Link to='/'>LOGO.</Link>
+				</div>
 				<ul className='nav'>
 					{user && (
 						<React.Fragment>

@@ -6,12 +6,21 @@ import { getArticles } from '../store/actions/articleActions';
 
 const Home = () => {
 	const articles = useSelector((state) => state.article.articles);
+	const currentPage = useSelector((state) => state.article.currentPage);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getArticles());
-	}, []);
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	}, [articles]);
+
+	useEffect(() => {
+		dispatch(getArticles(currentPage));
+	}, [currentPage, dispatch]);
+
 	return (
 		<React.Fragment>
 			<section className='cover-section'></section>

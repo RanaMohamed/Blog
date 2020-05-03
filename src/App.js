@@ -13,10 +13,10 @@ import Auth from './pages/auth';
 import { loadUser, getUser } from './store/actions/userActions';
 import ProtectedRoute from './components/protectedRoute';
 import { clearRedirectTo } from './store/actions/routeActions';
+import { changePage } from './store/actions/articleActions';
 
 function App() {
 	const token = useSelector((state) => state.user.token);
-	const user = useSelector((state) => state.user.user);
 
 	const redirectTo = useSelector((state) => state.route.redirectTo);
 
@@ -29,15 +29,16 @@ function App() {
 
 	useEffect(() => {
 		if (token) dispatch(getUser(token));
-	}, [token]);
+	}, [dispatch, token]);
 
 	useEffect(() => {
 		if (redirectTo) history.replace(redirectTo);
-	}, [redirectTo]);
+	}, [history, redirectTo]);
 
 	useEffect(() => {
 		dispatch(clearRedirectTo());
-	}, [history.location.pathname]);
+		dispatch(changePage(1, 0));
+	}, [dispatch, history.location.pathname]);
 
 	return (
 		<div className='App'>

@@ -53,14 +53,14 @@ export const editArticleErrors = (errors) => {
 	};
 };
 
-export const getArticles = () => {
+export const getArticles = (page) => {
 	return (dispatch) => {
 		axios
-			.get('/articles')
+			.get(`/articles?page=${page}`)
 			.then((data) => {
 				dispatch({
 					type: TYPES.GET_ARTICLES,
-					payload: data.articles,
+					payload: data,
 				});
 			})
 			.catch((errors) => {});
@@ -86,6 +86,15 @@ export const removeArticle = () => {
 		dispatch({
 			type: TYPES.GET_ARTICLE,
 			payload: null,
+		});
+	};
+};
+
+export const changePage = (page, total) => {
+	return (dispatch) => {
+		dispatch({
+			type: TYPES.CHANGE_PAGE,
+			payload: { page, total },
 		});
 	};
 };
