@@ -2,13 +2,17 @@ import React, { useEffect } from 'react';
 import Pagination from '../components/pagination';
 import Article from '../components/article';
 import { useDispatch, useSelector } from 'react-redux';
-import { getArticles } from '../store/actions/articleActions';
+import { getArticles, changePage } from '../store/actions/articleActions';
 
 const Home = () => {
 	const articles = useSelector((state) => state.article.articles);
 	const currentPage = useSelector((state) => state.article.currentPage);
 
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		return () => dispatch(changePage(1, 0));
+	}, []);
 
 	useEffect(() => {
 		window.scrollTo({

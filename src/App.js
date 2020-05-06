@@ -37,7 +37,6 @@ function App() {
 
 	useEffect(() => {
 		dispatch(clearRedirectTo());
-		dispatch(changePage(1, 0));
 	}, [dispatch, history.location.pathname]);
 
 	return (

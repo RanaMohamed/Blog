@@ -53,10 +53,14 @@ export const editArticleErrors = (errors) => {
 	};
 };
 
-export const getArticles = (page) => {
+export const getArticles = (page, userId) => {
 	return (dispatch) => {
 		axios
-			.get(`/articles?page=${page}`)
+			.get(`/articles?page=${page}`, {
+				params: {
+					userId: userId,
+				},
+			})
 			.then((data) => {
 				dispatch({
 					type: TYPES.GET_ARTICLES,

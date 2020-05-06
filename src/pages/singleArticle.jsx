@@ -16,13 +16,20 @@ const SingleArticle = (props) => {
 		return () => dispatch(removeArticle());
 	}, []);
 
+	const backgroundImage = article.imgUrl
+		? `url(${url + '/' + article.imgUrl})`
+		: '';
+
+	const authorImg = article.author?.imgUrl
+		? `${url}/${article.author?.imgUrl}`
+		: '';
 	return (
 		<React.Fragment>
 			<section className='cover-section cover-section--img'>
 				<div
 					className='cover-section__content'
 					style={{
-						backgroundImage: `url(${url + '/' + article.imgUrl})`,
+						backgroundImage: backgroundImage,
 					}}
 				>
 					<div className='container text-center'>
@@ -58,11 +65,7 @@ const SingleArticle = (props) => {
 					<h3 className='text-center underlined'>About the author</h3>
 					<div className='author'>
 						<div className='author__img'>
-							<img
-								className='author__img'
-								src={url + '/' + article.author?.imgUrl}
-								alt=''
-							/>
+							<img className='author__img' src={authorImg} alt='' />
 						</div>
 						<div>
 							<h3 className='author__name'>{article.author?.name}</h3>
