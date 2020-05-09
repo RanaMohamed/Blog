@@ -23,8 +23,12 @@ const Home = () => {
 		return () => dispatch(changePage(1, 0));
 	}, []);
 
-	useEffect(() => {
+	const hanlderGetArticles = () => {
 		dispatch(getArticles(currentPage, null, q));
+	};
+
+	useEffect(() => {
+		hanlderGetArticles();
 	}, [currentPage, dispatch, q]);
 
 	useEffect(() => {
@@ -46,7 +50,11 @@ const Home = () => {
 					)}
 
 					{articles.map((article) => (
-						<Article key={article._id} article={article}></Article>
+						<Article
+							key={article._id}
+							article={article}
+							itemDeleted={() => hanlderGetArticles()}
+						></Article>
 					))}
 					<Pagination></Pagination>
 				</div>

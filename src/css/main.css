@@ -259,6 +259,7 @@ body {
 	text-transform: uppercase;
 	outline: 0;
 	transition: 0.1s;
+	cursor: pointer;
 }
 .btn:hover {
 	box-shadow: 0 1rem 2rem 0 rgba(1, 1, 1, 0.15);
@@ -358,6 +359,7 @@ body {
 }
 .article__actions {
 	float: right;
+	font-family: 'Josefin Sans';
 }
 .article__body {
 	margin: 2rem 0;
@@ -506,6 +508,40 @@ textarea.input {
 
 .vl {
 	border: 1px double rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+	background-color: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal__body {
+	background-color: #ffffff;
+	padding: 10rem;
+	max-width: 70rem;
+	position: relative;
+}
+.modal__title {
+	margin-bottom: 5rem;
+}
+.modal__buttons {
+	text-align: right;
+}
+.modal__buttons .btn:not(:last-of-type) {
+	margin-right: 1rem;
+}
+.modal__close {
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: translate(-5rem, 5rem);
 }
 
 .nav {

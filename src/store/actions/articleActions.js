@@ -10,6 +10,7 @@ export const addArticle = (article) => {
 			.then((data) => {
 				dispatch({
 					type: TYPES.EDIT_ARTICLE,
+					payload: data.article,
 				});
 			})
 			.catch((errors) => {
@@ -29,6 +30,7 @@ export const editArticle = (article) => {
 			.then((data) => {
 				dispatch({
 					type: TYPES.EDIT_ARTICLE,
+					payload: data.article,
 				});
 			})
 			.catch((errors) => {
@@ -88,6 +90,15 @@ export const removeArticle = () => {
 			type: TYPES.GET_ARTICLE,
 			payload: null,
 		});
+	};
+};
+
+export const deleteArticle = (id) => {
+	return (dispatch) => {
+		axios
+			.delete(`/articles/${id}`)
+			.then((data) => {})
+			.catch((errors) => {});
 	};
 };
 

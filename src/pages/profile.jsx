@@ -31,8 +31,12 @@ const Profile = (props) => {
 			});
 	}, [articles]);
 
-	useEffect(() => {
+	const handlerGetArticles = () => {
 		dispatch(getArticles(currentPage, props.match.params.id));
+	};
+
+	useEffect(() => {
+		handlerGetArticles();
 	}, [currentPage, dispatch]);
 
 	const authorImg = user?.imgUrl
@@ -55,7 +59,11 @@ const Profile = (props) => {
 					</div>
 					<div ref={articlesRef}>
 						{articles.map((article) => (
-							<Article key={article._id} article={article}></Article>
+							<Article
+								key={article._id}
+								article={article}
+								itemDeleted={() => handlerGetArticles()}
+							></Article>
 						))}
 					</div>
 					<Pagination></Pagination>

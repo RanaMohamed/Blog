@@ -41,9 +41,8 @@ const Header = () => {
 								<a href='/'>Followed</a>
 							</li>
 							<li className='navlink dropdown'>
-								<a href='/'>
-									<i className='fa fa-search'></i>
-								</a>
+								<i className='fa fa-search'></i>
+
 								<div className='dropdown__body search'>
 									<form action='' onSubmit={searchArticles}>
 										<input
@@ -58,7 +57,7 @@ const Header = () => {
 								</div>
 							</li>
 							<li className='navlink dropdown'>
-								<a href='/'>{user.name}</a>
+								<span>{user.name}</span>
 								<ul className='dropdown__body'>
 									<li>
 										<NavLink

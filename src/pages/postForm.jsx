@@ -31,10 +31,11 @@ const PostForm = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		dispatch(getArticle(params.id));
+		if (params.id) dispatch(getArticle(params.id));
+		else setEdited({ imgUrl: '', title: '', body: '', tags: [] });
 
 		return () => dispatch(removeArticle());
-	}, []);
+	}, [params.id]);
 
 	useEffect(() => {
 		if (article && user) {
@@ -56,7 +57,7 @@ const PostForm = () => {
 			setImgUrl(edited.imgUrl ? `${url}/${edited.imgUrl}` : 'placeholder.png');
 	}, [edited.imgUrl]);
 
-	const errors = useSelector((state) => state.user.editErrors);
+	const errors = useSelector((state) => state.article.editErrors);
 
 	const dispatch = useDispatch();
 
@@ -66,8 +67,8 @@ const PostForm = () => {
 			'any.required': `Name is required`,
 		}),
 		body: Joi.string().required().messages({
-			'string.empty': 'Password should not be empty',
-			'any.required': `Password is required`,
+			'string.empty': 'Body should not be empty',
+			'any.required': `Body is required`,
 		}),
 		tags: Joi.array(),
 		_id: Joi.string(),
@@ -79,14 +80,16 @@ const PostForm = () => {
 		const { error } = schema.validate(edited, { abortEarly: false });
 		if (error) {
 			const err = _.keyBy(error.details, (e) => e.context.label);
-			dispatch(editArticleErrors(err));
+			await dispatch(editArticleErrors(err));
 			return;
 		}
 		if (edited._id) {
-			dispatch(editArticle(_.pickBy(edited)));
+			await dispatch(editArticle(_.pickBy(edited)));
+			history.push(`/article/${article._id}`);
 			return;
 		}
-		dispatch(addArticle(_.pickBy(edited)));
+		await dispatch(addArticle(_.pickBy(edited)));
+		history.push(`/`);
 	};
 
 	const hanlderAddTag = (e) => {

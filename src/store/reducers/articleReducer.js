@@ -14,6 +14,7 @@ const articleReducer = (state = initialState, action) => {
 			return {
 				...state,
 				editErrors: {},
+				article: action.payload,
 			};
 		case TYPES.EDIT_ARTICLE_FAIL:
 			return {
