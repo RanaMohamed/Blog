@@ -11,10 +11,6 @@ export const addArticle = (article) => {
 				dispatch({
 					type: TYPES.EDIT_ARTICLE,
 				});
-				dispatch({
-					type: TYPES.REDIRECT,
-					payload: `/article/${data.article._id}`,
-				});
 			})
 			.catch((errors) => {
 				dispatch({
@@ -53,12 +49,13 @@ export const editArticleErrors = (errors) => {
 	};
 };
 
-export const getArticles = (page, userId) => {
+export const getArticles = (page, userId, query) => {
 	return (dispatch) => {
 		axios
 			.get(`/articles?page=${page}`, {
 				params: {
 					userId: userId,
+					q: query,
 				},
 			})
 			.then((data) => {

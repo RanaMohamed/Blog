@@ -35,13 +35,10 @@ export const loginUser = (user) => {
 		axios
 			.post('/users/login', user)
 			.then((data) => {
+				axios.defaults.headers.common['authorization'] = data.token;
 				dispatch({
 					type: TYPES.LOGIN_USER,
 					payload: { user: data.user, token: data.token },
-				});
-				dispatch({
-					type: TYPES.REDIRECT,
-					payload: '/',
 				});
 			})
 			.catch((errors) => {
@@ -80,21 +77,13 @@ export const logout = () => {
 };
 
 export const getUser = (token) => {
-	axios.defaults.headers.common['authorization'] = token;
 	return (dispatch) => {
-		axios
-			.get('/users/getUser')
-			.then((data) => {
-				dispatch({
-					type: TYPES.GET_USER,
-					payload: data.user,
-				});
-			})
-			.catch((errors) => {
-				dispatch({
-					type: TYPES.LOGOUT,
-				});
+		axios.get('/users/getUser').then((data) => {
+			dispatch({
+				type: TYPES.GET_USER,
+				payload: data.user,
 			});
+		});
 	};
 };
 
@@ -109,20 +98,12 @@ export const removeProfile = () => {
 
 export const getProfile = (id) => {
 	return (dispatch) => {
-		axios
-			.get(`/users/getUser/${id}`)
-			.then((data) => {
-				dispatch({
-					type: TYPES.GET_PROFILE,
-					payload: data.user,
-				});
-			})
-			.catch((errors) => {
-				dispatch({
-					type: TYPES.REDIRECT,
-					payload: '/',
-				});
+		axios.get(`/users/getUser/${id}`).then((data) => {
+			dispatch({
+				type: TYPES.GET_PROFILE,
+				payload: data.user,
 			});
+		});
 	};
 };
 

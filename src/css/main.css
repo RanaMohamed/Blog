@@ -229,6 +229,17 @@ b {
 	font-weight: bold;
 }
 
+.first-letter {
+	position: absolute;
+	font-size: 20rem;
+	transform: translate(-50%, calc(50% - 5rem));
+	top: 0;
+	opacity: 0.2;
+}
+.first-letter-contianer {
+	margin: 10rem 0;
+}
+
 body {
 	background-color: #f8f8f8;
 }

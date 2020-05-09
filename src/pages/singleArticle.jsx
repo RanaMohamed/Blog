@@ -56,9 +56,9 @@ const SingleArticle = (props) => {
 						></div>
 						<div className='article__tags'>
 							{article.tags?.map((tag, index) => (
-								<a href='/' key={index} className='tag color-link'>
+								<Link to={`/?q=${tag}`} key={index} className='tag color-link'>
 									{tag}
-								</a>
+								</Link>
 							))}
 						</div>
 					</div>

@@ -2,6 +2,7 @@ import TYPES from './types';
 
 const initialState = {
 	user: null,
+	loaded: false,
 	profile: null,
 	token: '',
 	loginErrors: {},
@@ -37,6 +38,7 @@ const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				token: localStorage.getItem('token'),
+				loaded: true,
 			};
 		}
 		case TYPES.GET_USER: {

@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Joi from '@hapi/joi';
 import * as _ from 'lodash';
 
 import { loginUser, loginUserErrors } from '../store/actions/userActions';
 import { emailRegex } from '../helper';
+import { useHistory } from 'react-router';
 
 const Login = () => {
+	const logged = useSelector((state) => state.user.user);
 	const [user, setUser] = useState({ email: '', password: '' });
 
 	const errors = useSelector((state) => state.user.loginErrors);
 
 	const dispatch = useDispatch();
+	const history = useHistory();
+	useEffect(() => {
+		if (logged) history.goBack();
+	}, [logged]);
 
 	const schema = Joi.object({
 		email: Joi.string().required().pattern(emailRegex).messages({

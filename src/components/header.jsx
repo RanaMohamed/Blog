@@ -1,16 +1,25 @@
-import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/actions/userActions';
 
 const Header = () => {
 	const user = useSelector((state) => state.user.user);
+	const [query, setQuery] = useState('');
 
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const logoutHandler = (e) => {
 		e.preventDefault();
 		dispatch(logout());
+		history.push('/login');
+	};
+
+	const searchArticles = (e) => {
+		e.preventDefault();
+		history.push(`/?q=${query}`);
+		setQuery('');
 	};
 
 	return (
@@ -34,12 +43,16 @@ const Header = () => {
 							<li className='navlink dropdown'>
 								<a href='/'>Search</a>
 								<div className='dropdown__body search'>
-									<input
-										type='text'
-										placeholder='Type here to search'
-										className='input'
-									/>
-									<button className='btn'>Search</button>
+									<form action='' onSubmit={searchArticles}>
+										<input
+											type='text'
+											placeholder='Type here to search'
+											className='input'
+											value={query}
+											onChange={(e) => setQuery(e.target.value)}
+										/>
+										<button className='btn'>Search</button>
+									</form>
 								</div>
 							</li>
 							<li className='navlink dropdown'>
