@@ -14,7 +14,7 @@ export const addArticle = (article) => {
 			})
 			.catch((errors) => {
 				dispatch({
-					type: TYPES.EDIT_PROFILE_FAIL,
+					type: TYPES.EDIT_ARTICLE_FAIL,
 					payload: errors,
 				});
 			});
@@ -33,7 +33,7 @@ export const editArticle = (article) => {
 			})
 			.catch((errors) => {
 				dispatch({
-					type: TYPES.EDIT_PROFILE_FAIL,
+					type: TYPES.EDIT_ARTICLE_FAIL,
 					payload: errors,
 				});
 			});
@@ -43,7 +43,7 @@ export const editArticle = (article) => {
 export const editArticleErrors = (errors) => {
 	return (dispatch) => {
 		dispatch({
-			type: TYPES.EDIT_PROFILE_FAIL,
+			type: TYPES.EDIT_ARTICLE_FAIL,
 			payload: errors,
 		});
 	};

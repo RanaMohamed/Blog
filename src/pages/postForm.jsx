@@ -6,17 +6,45 @@ import * as _ from 'lodash';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-import { addArticle, editArticleErrors } from '../store/actions/articleActions';
+import {
+	addArticle,
+	editArticleErrors,
+	getArticle,
+	editArticle,
+	removeArticle,
+} from '../store/actions/articleActions';
 import { url } from '../helper';
+import { useParams, useHistory } from 'react-router';
 
-const AddPost = () => {
+const PostForm = () => {
 	const [edited, setEdited] = useState({
 		imgUrl: '',
 		title: '',
 		body: '',
 		tags: [],
 	});
+
+	const article = useSelector((state) => state.article.article);
+	const user = useSelector((state) => state.user.user);
 	const [imgUrl, setImgUrl] = useState('');
+	const params = useParams();
+	const history = useHistory();
+
+	useEffect(() => {
+		dispatch(getArticle(params.id));
+
+		return () => dispatch(removeArticle());
+	}, []);
+
+	useEffect(() => {
+		if (article && user) {
+			if (article.author._id !== user?._id) history.replace('/');
+			const art = { ...article };
+			delete art.author;
+			delete art.updatedAt;
+			setEdited(art);
+		}
+	}, [article, user]);
 
 	useEffect(() => {
 		const reader = new FileReader();
@@ -54,6 +82,10 @@ const AddPost = () => {
 			dispatch(editArticleErrors(err));
 			return;
 		}
+		if (edited._id) {
+			dispatch(editArticle(_.pickBy(edited)));
+			return;
+		}
 		dispatch(addArticle(_.pickBy(edited)));
 	};
 
@@ -85,7 +117,9 @@ const AddPost = () => {
 			<section className='main-section'>
 				<div className='container'>
 					<form onSubmit={handlerSubmit} action='' className='form'>
-						<h3 className='text-center underlined underlined--sm'>Add Post</h3>
+						<h3 className='text-center underlined underlined--sm'>
+							{edited._id ? 'Edit' : 'Add'} Post
+						</h3>
 						<div className='input-img'>
 							<img src={imgUrl} alt='' />
 							<input
@@ -119,7 +153,7 @@ const AddPost = () => {
 						<label htmlFor='body'>Body</label>
 						<CKEditor
 							editor={ClassicEditor}
-							// data='<p>Hello from CKEditor 5!</p>'
+							data={edited.body}
 							config={{
 								toolbar: [
 									'heading',
@@ -143,7 +177,9 @@ const AddPost = () => {
 							}}
 							onChange={(event, editor) => {
 								const body = editor.getData();
-								setEdited({ ...edited, body });
+								setEdited((state) => {
+									return { ...state, body };
+								});
 							}}
 						/>
 						<span className='error-message'>
@@ -180,4 +216,4 @@ const AddPost = () => {
 	);
 };
 
-export default AddPost;
+export default PostForm;

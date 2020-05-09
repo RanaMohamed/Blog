@@ -7,12 +7,12 @@ import Home from './pages/home';
 import SingleArticle from './pages/singleArticle';
 import Profile from './pages/profile';
 import EditProfile from './pages/editProfile';
-import AddPost from './pages/addPost';
 import Auth from './pages/auth';
+import Error404 from './pages/error404';
+import PostForm from './pages/postForm';
+import ProtectedRoute from './components/protectedRoute';
 
 import { loadUser, getUser } from './store/actions/userActions';
-import ProtectedRoute from './components/protectedRoute';
-import Error404 from './pages/error404';
 
 function App() {
 	const token = useSelector((state) => state.user.token);
@@ -36,8 +36,8 @@ function App() {
 					<Switch>
 						<Route path='/login' component={Auth}></Route>
 						<ProtectedRoute
-							path='/addPost'
-							component={AddPost}
+							path='/post/:id?'
+							component={PostForm}
 						></ProtectedRoute>
 						<ProtectedRoute
 							path='/profile/:id'
@@ -48,9 +48,9 @@ function App() {
 							component={EditProfile}
 						></ProtectedRoute>
 						<Route path='/article/:id' component={SingleArticle}></Route>
-						<Route path='/Error' component={Error404}></Route>
+						<Route path='/error' component={Error404}></Route>
 						<Route path='/' component={Home} exact={true}></Route>
-						<Redirect to='/Error'></Redirect>
+						<Redirect to='/error'></Redirect>
 					</Switch>
 				</div>
 			)}

@@ -356,6 +356,9 @@ body {
 .article__img img {
 	max-width: 100%;
 }
+.article__actions {
+	float: right;
+}
 .article__body {
 	margin: 2rem 0;
 }

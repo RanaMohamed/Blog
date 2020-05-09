@@ -1,13 +1,37 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { url } from '../helper';
+import { useSelector } from 'react-redux';
 
 const Article = (props) => {
 	const { _id, imgUrl, title, body, author } = props.article;
+	const user = useSelector((state) => state.user.user);
 	const img = imgUrl ? `${url}/${imgUrl}` : '';
 	return (
 		<div className='article underlined'>
+			{user?._id === author?._id && (
+				<div className='article__actions dropdown'>
+					<a href='/'>
+						<i className='fas fa-ellipsis-h'></i>
+					</a>
+					<ul className='dropdown__body'>
+						<li>
+							<NavLink
+								to={`/post/${_id}`}
+								className='dropdown__item color-link'
+							>
+								Edit
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to='/delete' className='dropdown__item color-link'>
+								Delete
+							</NavLink>
+						</li>
+					</ul>
+				</div>
+			)}
 			<h1 className='article__title'>
 				<Link
 					to={{
