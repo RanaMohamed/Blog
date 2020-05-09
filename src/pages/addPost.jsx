@@ -24,7 +24,8 @@ const AddPost = () => {
 			setImgUrl(e.target.result);
 		};
 		if (typeof edited.imgUrl === 'object') reader.readAsDataURL(edited.imgUrl);
-		else setImgUrl(edited.imgUrl ? url + '/' + edited.imgUrl : '');
+		else
+			setImgUrl(edited.imgUrl ? `${url}/${edited.imgUrl}` : 'placeholder.png');
 	}, [edited.imgUrl]);
 
 	const errors = useSelector((state) => state.user.editErrors);
@@ -95,6 +96,7 @@ const AddPost = () => {
 									setEdited({ ...edited, imgUrl: e.target.files[0] })
 								}
 							/>
+							<i className='fas fa-camera input-img__icon'></i>
 						</div>
 						<span className='error-message'>
 							{errors['imgUrl']?.message || errors['imgUrl']?.msg}

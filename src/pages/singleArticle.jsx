@@ -22,7 +22,7 @@ const SingleArticle = (props) => {
 
 	const authorImg = article.author?.imgUrl
 		? `${url}/${article.author?.imgUrl}`
-		: '';
+		: '../placeholder-avatar.png';
 	return (
 		<React.Fragment>
 			<section className='cover-section cover-section--img'>

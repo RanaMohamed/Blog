@@ -6,7 +6,7 @@ import { logout } from './store/actions/userActions';
 const instance = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
 const token = localStorage.getItem('token');
-if (token) instance.defaults.headers['authorization'] = token;
+if (token) instance.defaults.headers.common['authorization'] = token;
 
 instance.interceptors.response.use(
 	(response) => {

@@ -6,6 +6,7 @@ import ScrollToTop from './components/ScrollToTop';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import './css/main.css';
 import './css/toastr.min.css';
 import './css/style.css';

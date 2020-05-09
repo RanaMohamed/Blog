@@ -5,6 +5,7 @@ import { url } from '../helper';
 
 const Article = (props) => {
 	const { _id, imgUrl, title, body, author } = props.article;
+	const img = imgUrl ? `${url}/${imgUrl}` : '';
 	return (
 		<div className='article underlined'>
 			<h1 className='article__title'>
@@ -31,7 +32,7 @@ const Article = (props) => {
 						state: { article: props.article },
 					}}
 				>
-					<img src={url + '/' + imgUrl} alt='' />
+					<img src={img} alt='' />
 				</Link>
 			</div>
 			<div

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Switch, Route, useHistory, Redirect } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router';
 
 import Header from './components/header';
 import Home from './pages/home';
@@ -18,7 +18,6 @@ function App() {
 	const token = useSelector((state) => state.user.token);
 	const loaded = useSelector((state) => state.user.loaded);
 
-	const history = useHistory();
 	const dispatch = useDispatch();
 
 	useEffect(() => {

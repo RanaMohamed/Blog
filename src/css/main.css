@@ -473,6 +473,9 @@ body {
 	left: 0;
 	pointer-events: none;
 }
+.input-img:hover .input-img__icon {
+	display: block;
+}
 .input-img--avatar {
 	margin: 0 auto 1.5rem;
 	overflow: hidden;
@@ -483,6 +486,15 @@ body {
 .input-img img {
 	max-width: 100%;
 	vertical-align: middle;
+}
+.input-img__icon {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	z-index: 1000;
+	display: none;
 }
 
 textarea.input {

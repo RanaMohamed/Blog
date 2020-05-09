@@ -35,7 +35,9 @@ const Profile = (props) => {
 		dispatch(getArticles(currentPage, props.match.params.id));
 	}, [currentPage, dispatch]);
 
-	const authorImg = user?.imgUrl ? `${url}/${user?.imgUrl}` : '';
+	const authorImg = user?.imgUrl
+		? `${url}/${user?.imgUrl}`
+		: '../placeholder-avatar.png';
 	return (
 		<React.Fragment>
 			<section className='cover-section'></section>
