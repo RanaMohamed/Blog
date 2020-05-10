@@ -4,17 +4,23 @@ import { Link } from 'react-router-dom';
 import { url } from '../helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getArticle, removeArticle } from '../store/actions/articleActions';
+import { followUser } from '../store/actions/userActions';
 
 const SingleArticle = (props) => {
 	const dispatch = useDispatch();
 
 	const article = useSelector((state) => state.article.article) || {};
+	const loggedUser = useSelector((state) => state.user.user);
 
 	useEffect(() => {
 		dispatch(getArticle(props.match.params.id));
 
 		return () => dispatch(removeArticle());
 	}, []);
+
+	const handlerFollow = (follow) => {
+		dispatch(followUser(article.author._id, follow));
+	};
 
 	const backgroundImage = article.imgUrl
 		? `url(${url + '/' + article.imgUrl})`
@@ -71,10 +77,25 @@ const SingleArticle = (props) => {
 							<h3 className='author__name'>{article.author?.name}</h3>
 							<p className='author__desc'>{article.author?.desc}</p>
 							<div className='btns-row'>
-								<Link to={`/profile/${article.author?._id}`} className='btn'>
+								{article?.author?._id !== loggedUser?._id &&
+								loggedUser?.following.indexOf(article?.author?._id) === -1 ? (
+									<button
+										className='btn btn--outline'
+										onClick={() => handlerFollow(true)}
+									>
+										Follow Author
+									</button>
+								) : (
+									<button className='btn' onClick={() => handlerFollow(false)}>
+										Unfollow Author
+									</button>
+								)}
+								<Link
+									to={`/profile/${article.author?._id}`}
+									className='btn btn--dark'
+								>
 									View profile
 								</Link>
-								<button className='btn btn--outline'>Follow Author</button>
 							</div>
 						</div>
 					</div>

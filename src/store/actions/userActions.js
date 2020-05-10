@@ -139,3 +139,21 @@ export const editProfileErrors = (errors) => {
 		});
 	};
 };
+
+export const followUser = (id, follow) => {
+	return (dispatch) => {
+		follow
+			? axios.post(`/users/follow/${id}`).then((data) => {
+					dispatch({
+						type: TYPES.FOLLOW_USER,
+						payload: { id, follow },
+					});
+			  })
+			: axios.post(`/users/unfollow/${id}`).then((data) => {
+					dispatch({
+						type: TYPES.FOLLOW_USER,
+						payload: { id, follow },
+					});
+			  });
+	};
+};

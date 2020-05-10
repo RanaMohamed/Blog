@@ -2,12 +2,17 @@ import React, { useEffect, useRef } from 'react';
 import Pagination from '../components/pagination';
 import { useSelector, useDispatch } from 'react-redux';
 import { url } from '../helper';
-import { getProfile, removeProfile } from '../store/actions/userActions';
+import {
+	getProfile,
+	removeProfile,
+	followUser,
+} from '../store/actions/userActions';
 import { getArticles, changePage } from '../store/actions/articleActions';
 import Article from '../components/article';
 
 const Profile = (props) => {
 	const user = useSelector((state) => state.user.profile);
+	const loggedUser = useSelector((state) => state.user.user);
 	const articles = useSelector((state) => state.article.articles);
 	const currentPage = useSelector((state) => state.article.currentPage);
 	const dispatch = useDispatch();
@@ -39,6 +44,10 @@ const Profile = (props) => {
 		handlerGetArticles();
 	}, [currentPage, dispatch]);
 
+	const handlerFollow = (follow) => {
+		dispatch(followUser(user._id, follow));
+	};
+
 	const authorImg = user?.imgUrl
 		? `${url}/${user?.imgUrl}`
 		: '../placeholder-avatar.png';
@@ -54,7 +63,19 @@ const Profile = (props) => {
 						</h3>
 						<p className='author__desc text-center'>{user?.desc}</p>
 						<div className='btns-row underlined'>
-							<button className='btn btn--outline'>Follow Author</button>
+							{user?._id !== loggedUser?._id &&
+							loggedUser?.following.indexOf(user?._id) === -1 ? (
+								<button
+									className='btn btn--outline'
+									onClick={() => handlerFollow(true)}
+								>
+									Follow Author
+								</button>
+							) : (
+								<button className='btn' onClick={() => handlerFollow(false)}>
+									Unfollow Author
+								</button>
+							)}
 						</div>
 					</div>
 					<div ref={articlesRef}>

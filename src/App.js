@@ -13,6 +13,7 @@ import PostForm from './pages/postForm';
 import ProtectedRoute from './components/protectedRoute';
 
 import { loadUser, getUser } from './store/actions/userActions';
+import Followed from './pages/followed';
 
 function App() {
 	const token = useSelector((state) => state.user.token);
@@ -46,6 +47,10 @@ function App() {
 						<ProtectedRoute
 							path='/editProfile'
 							component={EditProfile}
+						></ProtectedRoute>
+						<ProtectedRoute
+							path='/followed'
+							component={Followed}
 						></ProtectedRoute>
 						<Route path='/article/:id' component={SingleArticle}></Route>
 						<Route path='/error' component={Error404}></Route>

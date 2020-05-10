@@ -74,6 +74,16 @@ const userReducer = (state = initialState, action) => {
 				editErrors: action.payload,
 			};
 		}
+		case TYPES.FOLLOW_USER: {
+			const user = { ...state.user };
+			action.payload.follow
+				? (user.following = [...user.following, action.payload.id])
+				: (user.following = user.following.map((u) => u !== action.payload.id));
+			return {
+				...state,
+				user,
+			};
+		}
 		default:
 			return state;
 	}

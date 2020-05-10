@@ -100,7 +100,7 @@ const Article = (props) => {
 					>
 						Read on
 					</Link>
-					<button className='btn btn--outline'>Read later</button>
+					{/* <button className='btn btn--outline'>Read later</button> */}
 				</div>
 			</div>
 		</React.Fragment>

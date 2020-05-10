@@ -70,6 +70,20 @@ export const getArticles = (page, userId, query) => {
 	};
 };
 
+export const getFollowed = (page, userId, query) => {
+	return (dispatch) => {
+		axios
+			.get(`/articles/followed?page=${page}`)
+			.then((data) => {
+				dispatch({
+					type: TYPES.GET_ARTICLES,
+					payload: data,
+				});
+			})
+			.catch((errors) => {});
+	};
+};
+
 export const getArticle = (id) => {
 	return (dispatch) => {
 		axios
