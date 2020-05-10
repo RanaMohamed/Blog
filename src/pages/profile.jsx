@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Pagination from '../components/pagination';
 import { useSelector, useDispatch } from 'react-redux';
-import { url } from '../helper';
 import {
 	getProfile,
 	removeProfile,
@@ -48,9 +47,7 @@ const Profile = (props) => {
 		dispatch(followUser(user._id, follow));
 	};
 
-	const authorImg = user?.imgUrl
-		? `${url}/${user?.imgUrl}`
-		: '../placeholder-avatar.png';
+	const authorImg = user?.imgUrl ? user.imgUrl : '../placeholder-avatar.png';
 	return (
 		<React.Fragment>
 			<section className='cover-section'></section>

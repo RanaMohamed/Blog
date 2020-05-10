@@ -13,7 +13,6 @@ import {
 	editArticle,
 	removeArticle,
 } from '../store/actions/articleActions';
-import { url } from '../helper';
 import { useParams, useHistory } from 'react-router';
 
 const PostForm = () => {
@@ -53,8 +52,7 @@ const PostForm = () => {
 			setImgUrl(e.target.result);
 		};
 		if (typeof edited.imgUrl === 'object') reader.readAsDataURL(edited.imgUrl);
-		else
-			setImgUrl(edited.imgUrl ? `${url}/${edited.imgUrl}` : 'placeholder.png');
+		else setImgUrl(edited.imgUrl ? edited.imgUrl : 'placeholder.png');
 	}, [edited.imgUrl]);
 
 	const errors = useSelector((state) => state.article.editErrors);
@@ -80,16 +78,16 @@ const PostForm = () => {
 		const { error } = schema.validate(edited, { abortEarly: false });
 		if (error) {
 			const err = _.keyBy(error.details, (e) => e.context.label);
-			await dispatch(editArticleErrors(err));
+			dispatch(editArticleErrors(err));
 			return;
 		}
 		if (edited._id) {
-			await dispatch(editArticle(_.pickBy(edited)));
-			history.push(`/article/${article._id}`);
+			dispatch(editArticle(_.pickBy(edited)));
+			// history.push(`/article/${article._id}`);
 			return;
 		}
 		await dispatch(addArticle(_.pickBy(edited)));
-		history.push(`/`);
+		// history.push(`/`);
 	};
 
 	const hanlderAddTag = (e) => {

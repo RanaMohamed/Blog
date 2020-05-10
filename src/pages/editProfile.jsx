@@ -4,7 +4,7 @@ import Joi from '@hapi/joi';
 import * as _ from 'lodash';
 
 import { editProfile, editProfileErrors } from '../store/actions/userActions';
-import { emailRegex, url } from '../helper';
+import { emailRegex } from '../helper';
 
 const EditProfile = () => {
 	const user = useSelector((state) => state.user.user);
@@ -27,10 +27,7 @@ const EditProfile = () => {
 			setImgUrl(e.target.result);
 		};
 		if (typeof edited.imgUrl === 'object') reader.readAsDataURL(edited.imgUrl);
-		else
-			setImgUrl(
-				edited.imgUrl ? `${url}/${edited.imgUrl}` : 'placeholder-avatar.png'
-			);
+		else setImgUrl(edited.imgUrl ? edited.imgUrl : 'placeholder-avatar.png');
 	}, [edited.imgUrl]);
 
 	const errors = useSelector((state) => state.user.editErrors);
@@ -54,6 +51,7 @@ const EditProfile = () => {
 		_id: Joi.string(),
 		desc: Joi.string(),
 		imgUrl: Joi.any(),
+		following: Joi.any(),
 	});
 
 	const handlerSubmit = async (e) => {

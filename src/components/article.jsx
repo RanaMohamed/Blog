@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useLocation, useHistory } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
-import { url } from '../helper';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from './modal';
-import { deleteArticle, getArticles } from '../store/actions/articleActions';
+import { deleteArticle } from '../store/actions/articleActions';
 
 const Article = (props) => {
 	const { _id, imgUrl, title, body, author } = props.article;
@@ -13,7 +12,7 @@ const Article = (props) => {
 
 	const dispatch = useDispatch();
 
-	const img = imgUrl ? `${url}/${imgUrl}` : '';
+	const img = imgUrl ? imgUrl : '';
 	const hanlderDelete = async () => {
 		await dispatch(deleteArticle(_id));
 		setModalOpened(false);

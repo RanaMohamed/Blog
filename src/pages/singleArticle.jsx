@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { url } from '../helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getArticle, removeArticle } from '../store/actions/articleActions';
 import { followUser } from '../store/actions/userActions';
@@ -22,12 +21,10 @@ const SingleArticle = (props) => {
 		dispatch(followUser(article.author._id, follow));
 	};
 
-	const backgroundImage = article.imgUrl
-		? `url(${url + '/' + article.imgUrl})`
-		: '';
+	const backgroundImage = article.imgUrl ? `url(${article.imgUrl})` : '';
 
 	const authorImg = article.author?.imgUrl
-		? `${url}/${article.author?.imgUrl}`
+		? article.author.imgUrl
 		: '../placeholder-avatar.png';
 	return (
 		<React.Fragment>
