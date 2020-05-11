@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import Pagination from '../components/pagination';
 import Article from '../components/article';
 import { useDispatch, useSelector } from 'react-redux';
-import { changePage, getFollowed } from '../store/actions/articleActions';
+import { getFollowed, removeArticles } from '../store/actions/articleActions';
 
 const Followed = () => {
+	const pending = useSelector((state) => state.request.pending);
 	const articles = useSelector((state) => state.article.articles);
 	const currentPage = useSelector((state) => state.article.currentPage);
 	const user = useSelector((state) => state.user.user);
@@ -12,15 +13,11 @@ const Followed = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		return () => dispatch(changePage(1, 0));
+		return () => dispatch(removeArticles());
 	}, []);
 
-	const hanlderGetFollowed = () => {
-		dispatch(getFollowed(currentPage));
-	};
-
 	useEffect(() => {
-		hanlderGetFollowed(currentPage);
+		dispatch(getFollowed());
 	}, [currentPage]);
 
 	useEffect(() => {
@@ -36,17 +33,17 @@ const Followed = () => {
 			<section className='main-section'>
 				<div className='container'>
 					{user?.following.length > 0 ? (
-						<React.Fragment>
-							<h3 className='text-center underlined'>Followed Authors</h3>
-							{articles.map((article) => (
-								<Article
-									key={article._id}
-									article={article}
-									itemDeleted={() => hanlderGetFollowed()}
-								></Article>
-							))}
-							<Pagination></Pagination>
-						</React.Fragment>
+						pending ? (
+							<div className='loader'></div>
+						) : (
+							<React.Fragment>
+								<h3 className='text-center underlined'>Followed Authors</h3>
+								{articles.map((article) => (
+									<Article key={article._id} article={article}></Article>
+								))}
+								<Pagination></Pagination>
+							</React.Fragment>
+						)
 					) : (
 						<h2 className='text-center'>Start following authors</h2>
 					)}

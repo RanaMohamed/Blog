@@ -6,38 +6,61 @@ const initialState = {
 	total: 0,
 	perPage: 5,
 	currentPage: 1,
-	editErrors: {},
+	errors: {},
 };
 const articleReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case TYPES.EDIT_ARTICLE:
+		case TYPES.ADD_ARTICLE_SUCCESS:
+		case TYPES.EDIT_ARTICLE_SUCCESS:
 			return {
 				...state,
-				editErrors: {},
+				errors: {},
 				article: action.payload,
 			};
-		case TYPES.EDIT_ARTICLE_FAIL:
+		case TYPES.ADD_ARTICLE_FAILURE:
+		case TYPES.EDIT_ARTICLE_FAILURE:
 			return {
 				...state,
-				editErrors: action.payload,
+				errors: action.payload,
 			};
-		case TYPES.GET_ARTICLES:
+		case TYPES.GET_ARTICLES_SUCCESS:
 			return {
 				...state,
 				articles: action.payload.articles,
 				total: action.payload.total,
 			};
-		case TYPES.GET_ARTICLE:
+		case TYPES.REMOVE_ARTICLES: {
+			return {
+				...state,
+				articles: [],
+				total: 0,
+				currentPage: 1,
+			};
+		}
+		case TYPES.GET_ARTICLE_SUCCESS:
 			return {
 				...state,
 				article: action.payload,
 			};
+		case TYPES.REMOVE_ARTICLE: {
+			return {
+				...state,
+				article: null,
+			};
+		}
 		case TYPES.CHANGE_PAGE:
 			return {
 				...state,
 				currentPage: action.payload.page,
-				total: action.payload.total === 0 ? 0 : state.total,
+				total: action.payload.total,
 			};
+		case TYPES.RESET_PAGING: {
+			return {
+				...state,
+				currentPage: 1,
+				total: 0,
+			};
+		}
 		default:
 			return state;
 	}

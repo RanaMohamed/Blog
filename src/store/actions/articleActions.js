@@ -1,119 +1,130 @@
 import TYPES from '../reducers/types';
 import axios from '../../axios';
-import { convertToFormData } from '../../helper';
+import { convertToFormData } from '../../helpers/helper';
+import store from '../store';
 
 export const addArticle = (article) => {
-	const fd = convertToFormData(article);
-	return (dispatch) => {
-		axios
-			.post('/articles', fd)
-			.then((data) => {
-				dispatch({
-					type: TYPES.EDIT_ARTICLE,
-					payload: data.article,
-				});
-			})
-			.catch((errors) => {
-				dispatch({
-					type: TYPES.EDIT_ARTICLE_FAIL,
-					payload: errors,
-				});
-			});
-	};
-};
-
-export const editArticle = (article) => {
-	return (dispatch) => {
+	return async (dispatch) => {
 		const fd = convertToFormData(article);
-		axios
-			.patch('/articles', fd)
-			.then((data) => {
-				dispatch({
-					type: TYPES.EDIT_ARTICLE,
-					payload: data.article,
-				});
-			})
-			.catch((errors) => {
-				dispatch({
-					type: TYPES.EDIT_ARTICLE_FAIL,
-					payload: errors,
-				});
+		dispatch({ type: TYPES.ADD_ARTICLE_REQUEST });
+		try {
+			const data = await axios.post('/articles', fd);
+			dispatch({
+				type: TYPES.ADD_ARTICLE_SUCCESS,
+				payload: data.article,
 			});
+		} catch (errors) {
+			dispatch({
+				type: TYPES.ADD_ARTICLE_FAILURE,
+				payload: errors,
+			});
+		}
 	};
 };
 
-export const editArticleErrors = (errors) => {
+export const getArticles = (userId, query) => {
+	return async (dispatch) => {
+		const page = store.getState().article.currentPage;
+		dispatch({ type: TYPES.GET_ARTICLES_REQUEST });
+		try {
+			const data = await axios.get(`/articles?page=${page}`, {
+				params: { userId: userId, q: query },
+			});
+			dispatch({
+				type: TYPES.GET_ARTICLES_SUCCESS,
+				payload: data,
+			});
+		} catch (errors) {
+			dispatch({
+				type: TYPES.GET_ARTICLES_FAILURE,
+				payload: errors,
+			});
+		}
+	};
+};
+
+export const getFollowed = (userId, query) => {
+	return async (dispatch) => {
+		const page = store.getState().article.currentPage;
+		try {
+			dispatch({ type: TYPES.GET_ARTICLES_REQUEST });
+			const data = await axios.get(`/articles/followed?page=${page}`);
+			dispatch({
+				type: TYPES.GET_ARTICLES_SUCCESS,
+				payload: data,
+			});
+		} catch (errors) {
+			dispatch({
+				type: TYPES.GET_ARTICLES_FAILURE,
+				payload: errors,
+			});
+		}
+	};
+};
+
+export const removeArticles = () => {
 	return (dispatch) => {
 		dispatch({
-			type: TYPES.EDIT_ARTICLE_FAIL,
-			payload: errors,
+			type: TYPES.REMOVE_ARTICLES,
 		});
 	};
 };
 
-export const getArticles = (page, userId, query) => {
-	return (dispatch) => {
-		axios
-			.get(`/articles?page=${page}`, {
-				params: {
-					userId: userId,
-					q: query,
-				},
-			})
-			.then((data) => {
-				dispatch({
-					type: TYPES.GET_ARTICLES,
-					payload: data,
-				});
-			})
-			.catch((errors) => {});
-	};
-};
-
-export const getFollowed = (page, userId, query) => {
-	return (dispatch) => {
-		axios
-			.get(`/articles/followed?page=${page}`)
-			.then((data) => {
-				dispatch({
-					type: TYPES.GET_ARTICLES,
-					payload: data,
-				});
-			})
-			.catch((errors) => {});
-	};
-};
-
 export const getArticle = (id) => {
-	return (dispatch) => {
-		axios
-			.get(`/articles/${id}`)
-			.then((data) => {
-				dispatch({
-					type: TYPES.GET_ARTICLE,
-					payload: data.article,
-				});
-			})
-			.catch((errors) => {});
+	return async (dispatch) => {
+		try {
+			dispatch({ type: TYPES.GET_ARTICLE_REQUEST });
+			const data = await axios.get(`/articles/${id}`);
+			dispatch({
+				type: TYPES.GET_ARTICLE_SUCCESS,
+				payload: data.article,
+			});
+		} catch (errors) {
+			dispatch({
+				type: TYPES.GET_ARTICLE_FAILURE,
+			});
+		}
 	};
 };
 
 export const removeArticle = () => {
 	return (dispatch) => {
 		dispatch({
-			type: TYPES.GET_ARTICLE,
-			payload: null,
+			type: TYPES.REMOVE_ARTICLE,
+		});
+	};
+};
+
+export const editArticle = (article) => {
+	return async (dispatch) => {
+		const fd = convertToFormData(article);
+		dispatch({ type: TYPES.EDIT_ARTICLE_REQUEST });
+		try {
+			const data = await axios.patch('/articles', fd);
+			dispatch({
+				type: TYPES.EDIT_ARTICLE_SUCCESS,
+				payload: data.article,
+			});
+		} catch (errors) {
+			dispatch({
+				type: TYPES.EDIT_ARTICLE_FAILURE,
+				payload: errors,
+			});
+		}
+	};
+};
+
+export const editArticleErrors = (errors) => {
+	return (dispatch) => {
+		dispatch({
+			type: TYPES.EDIT_ARTICLE_FAILURE,
+			payload: errors,
 		});
 	};
 };
 
 export const deleteArticle = (id) => {
-	return (dispatch) => {
-		axios
-			.delete(`/articles/${id}`)
-			.then((data) => {})
-			.catch((errors) => {});
-	};
+	return axios.delete(`/articles/${id}`);
 };
 
 export const changePage = (page, total) => {

@@ -6,10 +6,15 @@ import { getArticle, removeArticle } from '../store/actions/articleActions';
 import { followUser } from '../store/actions/userActions';
 
 const SingleArticle = (props) => {
-	const dispatch = useDispatch();
-
 	const article = useSelector((state) => state.article.article) || {};
 	const loggedUser = useSelector((state) => state.user.user);
+
+	const backgroundImage = article.imgUrl ? `url(${article.imgUrl})` : '';
+	const authorImg = article.author?.imgUrl
+		? article.author.imgUrl
+		: '../placeholder-avatar.png';
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getArticle(props.match.params.id));
@@ -17,15 +22,10 @@ const SingleArticle = (props) => {
 		return () => dispatch(removeArticle());
 	}, []);
 
-	const handlerFollow = (follow) => {
+	const handleFollow = (follow) => {
 		dispatch(followUser(article.author._id, follow));
 	};
 
-	const backgroundImage = article.imgUrl ? `url(${article.imgUrl})` : '';
-
-	const authorImg = article.author?.imgUrl
-		? article.author.imgUrl
-		: '../placeholder-avatar.png';
 	return (
 		<React.Fragment>
 			<section className='cover-section cover-section--img'>
@@ -78,12 +78,12 @@ const SingleArticle = (props) => {
 								loggedUser?.following.indexOf(article?.author?._id) === -1 ? (
 									<button
 										className='btn btn--outline'
-										onClick={() => handlerFollow(true)}
+										onClick={() => handleFollow(true)}
 									>
 										Follow Author
 									</button>
 								) : (
-									<button className='btn' onClick={() => handlerFollow(false)}>
+									<button className='btn' onClick={() => handleFollow(false)}>
 										Unfollow Author
 									</button>
 								)}

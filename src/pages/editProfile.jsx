@@ -4,7 +4,7 @@ import Joi from '@hapi/joi';
 import * as _ from 'lodash';
 
 import { editProfile, editProfileErrors } from '../store/actions/userActions';
-import { emailRegex } from '../helper';
+import { emailRegex } from '../helpers/helper';
 
 const EditProfile = () => {
 	const user = useSelector((state) => state.user.user);

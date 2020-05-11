@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Joi from '@hapi/joi';
+import { useParams, useHistory } from 'react-router';
+
 import * as _ from 'lodash';
 
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+import { postSchema } from '../helpers/schemas';
 
 import {
 	addArticle,
@@ -13,38 +16,42 @@ import {
 	editArticle,
 	removeArticle,
 } from '../store/actions/articleActions';
-import { useParams, useHistory } from 'react-router';
 
 const PostForm = () => {
-	const [edited, setEdited] = useState({
-		imgUrl: '',
-		title: '',
-		body: '',
-		tags: [],
-	});
-
+	const pending = useSelector((state) => state.request.pending);
 	const article = useSelector((state) => state.article.article);
 	const user = useSelector((state) => state.user.user);
-	const [imgUrl, setImgUrl] = useState('');
+	const errors = useSelector((state) => state.article.errors);
+
+	const classes = pending ? 'form block blocked' : 'form block';
+
 	const params = useParams();
 	const history = useHistory();
+	const dispatch = useDispatch();
+
+	const defaultArticle = { imgUrl: '', title: '', body: '', tags: [] };
+
+	const [edited, setEdited] = useState(defaultArticle);
+	const [submitted, setSubmitted] = useState(false);
+	const [imgUrl, setImgUrl] = useState('');
 
 	useEffect(() => {
 		if (params.id) dispatch(getArticle(params.id));
-		else setEdited({ imgUrl: '', title: '', body: '', tags: [] });
+		else setEdited(defaultArticle);
 
 		return () => dispatch(removeArticle());
 	}, [params.id]);
 
 	useEffect(() => {
 		if (article && user) {
-			if (article.author._id !== user?._id) history.replace('/');
-			const art = { ...article };
-			delete art.author;
-			delete art.updatedAt;
-			setEdited(art);
+			//todo check if user owns the post
+
+			if (submitted && !pending && _.isEmpty(errors))
+				history.push(`/article/${article._id}`);
+
+			setEdited(_.omit(article, ['author', 'updatedAt']));
 		}
-	}, [article, user]);
+	}, [article]);
 
 	useEffect(() => {
 		const reader = new FileReader();
@@ -55,27 +62,10 @@ const PostForm = () => {
 		else setImgUrl(edited.imgUrl ? edited.imgUrl : 'placeholder.png');
 	}, [edited.imgUrl]);
 
-	const errors = useSelector((state) => state.article.editErrors);
-
-	const dispatch = useDispatch();
-
-	const schema = Joi.object({
-		title: Joi.string().required().messages({
-			'string.empty': 'Name should not be empty',
-			'any.required': `Name is required`,
-		}),
-		body: Joi.string().required().messages({
-			'string.empty': 'Body should not be empty',
-			'any.required': `Body is required`,
-		}),
-		tags: Joi.array(),
-		_id: Joi.string(),
-		imgUrl: Joi.any(),
-	});
-
-	const handlerSubmit = async (e) => {
+	const handleSubmit = async (e) => {
+		setSubmitted(true);
 		e.preventDefault();
-		const { error } = schema.validate(edited, { abortEarly: false });
+		const { error } = postSchema.validate(edited, { abortEarly: false });
 		if (error) {
 			const err = _.keyBy(error.details, (e) => e.context.label);
 			dispatch(editArticleErrors(err));
@@ -83,14 +73,12 @@ const PostForm = () => {
 		}
 		if (edited._id) {
 			dispatch(editArticle(_.pickBy(edited)));
-			// history.push(`/article/${article._id}`);
 			return;
 		}
-		await dispatch(addArticle(_.pickBy(edited)));
-		// history.push(`/`);
+		dispatch(addArticle(_.pickBy(edited)));
 	};
 
-	const hanlderAddTag = (e) => {
+	const handleTagAdd = (e) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			const val = e.target.value;
@@ -104,7 +92,7 @@ const PostForm = () => {
 		}
 	};
 
-	const hanlderRemoveTag = (val) => {
+	const handleTagRemove = (val) => {
 		const tags = edited.tags.filter((tag) => tag !== val);
 		setEdited({
 			...edited,
@@ -117,7 +105,8 @@ const PostForm = () => {
 			<section className='cover-section'></section>
 			<section className='main-section'>
 				<div className='container'>
-					<form onSubmit={handlerSubmit} action='' className='form'>
+					<form onSubmit={handleSubmit} action='' className={classes}>
+						<div className='loader'></div>
 						<h3 className='text-center underlined underlined--sm'>
 							{edited._id ? 'Edit' : 'Add'} Post
 						</h3>
@@ -193,12 +182,12 @@ const PostForm = () => {
 							className='input'
 							placeholder='Tags'
 							id='tags'
-							onKeyDown={hanlderAddTag}
+							onKeyDown={handleTagAdd}
 						/>
 						<div className='article__tags'>
 							{edited.tags.map((tag, index) => (
 								<span
-									onClick={() => hanlderRemoveTag(tag)}
+									onClick={() => handleTagRemove(tag)}
 									key={index}
 									className='tag'
 								>

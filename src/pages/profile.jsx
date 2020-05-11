@@ -6,16 +6,19 @@ import {
 	removeProfile,
 	followUser,
 } from '../store/actions/userActions';
-import { getArticles, changePage } from '../store/actions/articleActions';
+import { getArticles, removeArticles } from '../store/actions/articleActions';
 import Article from '../components/article';
 
 const Profile = (props) => {
+	const pending = useSelector((state) => state.request.pending);
 	const user = useSelector((state) => state.user.profile);
 	const loggedUser = useSelector((state) => state.user.user);
 	const articles = useSelector((state) => state.article.articles);
 	const currentPage = useSelector((state) => state.article.currentPage);
-	const dispatch = useDispatch();
 
+	const authorImg = user?.imgUrl ? user.imgUrl : '../placeholder-avatar.png';
+
+	const dispatch = useDispatch();
 	const articlesRef = useRef(null);
 
 	useEffect(() => {
@@ -23,9 +26,13 @@ const Profile = (props) => {
 
 		return () => {
 			dispatch(removeProfile());
-			dispatch(changePage(1, 0));
+			dispatch(removeArticles());
 		};
 	}, []);
+
+	useEffect(() => {
+		dispatch(getArticles(props.match.params.id));
+	}, [currentPage]);
 
 	useEffect(() => {
 		if (window.scrollY !== 0)
@@ -35,56 +42,49 @@ const Profile = (props) => {
 			});
 	}, [articles]);
 
-	const handlerGetArticles = () => {
-		dispatch(getArticles(currentPage, props.match.params.id));
-	};
-
-	useEffect(() => {
-		handlerGetArticles();
-	}, [currentPage, dispatch]);
-
-	const handlerFollow = (follow) => {
+	const handleFollow = (follow) => {
 		dispatch(followUser(user._id, follow));
 	};
 
-	const authorImg = user?.imgUrl ? user.imgUrl : '../placeholder-avatar.png';
 	return (
 		<React.Fragment>
 			<section className='cover-section'></section>
 			<section className='main-section'>
 				<div className='container'>
-					<div className='author author--vertical'>
-						<img className='author__img' src={authorImg} alt='' />
-						<h3 className='author__name underlined underlined--sm'>
-							{user?.name}
-						</h3>
-						<p className='author__desc text-center'>{user?.desc}</p>
-						<div className='btns-row underlined'>
-							{user?._id !== loggedUser?._id &&
-							loggedUser?.following.indexOf(user?._id) === -1 ? (
-								<button
-									className='btn btn--outline'
-									onClick={() => handlerFollow(true)}
-								>
-									Follow Author
-								</button>
-							) : (
-								<button className='btn' onClick={() => handlerFollow(false)}>
-									Unfollow Author
-								</button>
-							)}
-						</div>
-					</div>
-					<div ref={articlesRef}>
-						{articles.map((article) => (
-							<Article
-								key={article._id}
-								article={article}
-								itemDeleted={() => handlerGetArticles()}
-							></Article>
-						))}
-					</div>
-					<Pagination></Pagination>
+					{pending ? (
+						<div className='loader'></div>
+					) : (
+						<React.Fragment>
+							<div className='author author--vertical'>
+								<img className='author__img' src={authorImg} alt='' />
+								<h3 className='author__name underlined underlined--sm'>
+									{user?.name}
+								</h3>
+								<p className='author__desc text-center'>{user?.desc}</p>
+								<div className='btns-row underlined'>
+									{user?._id !== loggedUser?._id &&
+									loggedUser?.following.indexOf(user?._id) === -1 ? (
+										<button
+											className='btn btn--outline'
+											onClick={() => handleFollow(true)}
+										>
+											Follow Author
+										</button>
+									) : (
+										<button className='btn' onClick={() => handleFollow(false)}>
+											Unfollow Author
+										</button>
+									)}
+								</div>
+							</div>
+							<div ref={articlesRef}>
+								{articles.map((article) => (
+									<Article key={article._id} article={article}></Article>
+								))}
+							</div>
+							<Pagination></Pagination>
+						</React.Fragment>
+					)}
 				</div>
 			</section>
 		</React.Fragment>

@@ -4,7 +4,7 @@ import Joi from '@hapi/joi';
 import * as _ from 'lodash';
 
 import { registerUser, registerUserErrors } from '../store/actions/userActions';
-import { emailRegex } from '../helper';
+import { emailRegex } from '../helpers/helper';
 
 const Signup = (props) => {
 	const [user, setUser] = useState({ name: '', email: '', password: '' });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Error404 = () => {
 	return (
@@ -14,6 +15,10 @@ const Error404 = () => {
 						You may have accidentally mistype the page address, or followed an
 						expired link. Anyway, we will help you get back on track
 					</p>
+					<br />
+					<Link to='/' className='btn btn--dark'>
+						Go to home
+					</Link>
 				</div>
 			</section>
 		</React.Fragment>

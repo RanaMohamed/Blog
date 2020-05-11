@@ -4,7 +4,7 @@ import Joi from '@hapi/joi';
 import * as _ from 'lodash';
 
 import { loginUser, loginUserErrors } from '../store/actions/userActions';
-import { emailRegex } from '../helper';
+import { emailRegex } from '../helpers/helper';
 import { useHistory } from 'react-router';
 
 const Login = () => {

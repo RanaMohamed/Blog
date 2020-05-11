@@ -1,6 +1,6 @@
 import TYPES from '../reducers/types';
 import axios from '../../axios';
-import { convertToFormData } from '../../helper';
+import { convertToFormData } from '../../helpers/helper';
 
 export const registerUser = (user) => {
 	return (dispatch) => {

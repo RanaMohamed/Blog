@@ -1,32 +1,25 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Modal from './modal';
-import { deleteArticle } from '../store/actions/articleActions';
 
 const Article = (props) => {
-	const { _id, imgUrl, title, body, author } = props.article;
-	const [modalOpened, setModalOpened] = useState(false);
 	const user = useSelector((state) => state.user.user);
+	const [modalOpened, setModalOpened] = useState(false);
 
-	const dispatch = useDispatch();
-
+	const { _id, imgUrl, title, body, author } = props.article;
 	const img = imgUrl ? imgUrl : '';
-	const hanlderDelete = async () => {
-		await dispatch(deleteArticle(_id));
-		setModalOpened(false);
-		props.itemDeleted();
-	};
+
 	return (
 		<React.Fragment>
 			{modalOpened && (
 				<Modal
+					id={_id}
 					closeModal={(e) => {
 						e.preventDefault();
 						setModalOpened(false);
 					}}
-					deleteArticle={() => hanlderDelete()}
 				></Modal>
 			)}
 			<div className='article underlined'>
