@@ -6,9 +6,6 @@ const initialState = {
 	profile: null,
 	token: '',
 	errors: {},
-	loginErrors: {},
-	registerErrors: {},
-	editErrors: {},
 };
 const userReducer = (state = initialState, action) => {
 	switch (action.type) {
