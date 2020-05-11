@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Joi from '@hapi/joi';
+
 import * as _ from 'lodash';
 
 import { editProfile, editProfileErrors } from '../store/actions/userActions';
-import { emailRegex } from '../helpers/helper';
+import { editProfileSchema } from '../helpers/schemas';
+import { useHistory } from 'react-router';
 
 const EditProfile = () => {
+	const pending = useSelector((state) => state.request.pending);
 	const user = useSelector((state) => state.user.user);
-	const [imgUrl, setImgUrl] = useState('');
+	const errors = useSelector((state) => state.user.errors);
 	const [edited, setEdited] = useState({
 		imgUrl: '',
 		name: '',
@@ -16,8 +18,17 @@ const EditProfile = () => {
 		desc: '',
 		password: '',
 	});
+	const [imgUrl, setImgUrl] = useState('');
+	const [submitted, setSubmitted] = useState(false);
+
+	const classes = pending ? 'form block blocked' : 'form block';
+
+	const dispatch = useDispatch();
+	const history = useHistory();
 
 	useEffect(() => {
+		if (submitted && !pending && _.isEmpty(errors))
+			history.push(`/profile/${user._id}`);
 		if (user) setEdited({ ...edited, ...user });
 	}, [user]);
 
@@ -30,33 +41,10 @@ const EditProfile = () => {
 		else setImgUrl(edited.imgUrl ? edited.imgUrl : 'placeholder-avatar.png');
 	}, [edited.imgUrl]);
 
-	const errors = useSelector((state) => state.user.editErrors);
-	const dispatch = useDispatch();
-
-	const schema = Joi.object({
-		name: Joi.string().required().messages({
-			'string.empty': 'Name should not be empty',
-			'any.required': `Name is required`,
-		}),
-		email: Joi.string().required().pattern(emailRegex).messages({
-			'string.pattern.base': 'Email is invalid',
-			'string.empty': 'Email should not be empty',
-			'any.required': `Email is required`,
-		}),
-		password: Joi.string().min(8).messages({
-			'string.empty': 'Password should not be empty',
-			'string.min': `Password should have a minimum length of {#limit}`,
-			'any.required': `Password is required`,
-		}),
-		_id: Joi.string(),
-		desc: Joi.string(),
-		imgUrl: Joi.any(),
-		following: Joi.any(),
-	});
-
-	const handlerSubmit = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const { error } = schema.validate(user, { abortEarly: false });
+		setSubmitted(true);
+		const { error } = editProfileSchema.validate(user, { abortEarly: false });
 		if (error) {
 			const err = _.keyBy(error.details, (e) => e.context.label);
 			dispatch(editProfileErrors(err));
@@ -70,10 +58,11 @@ const EditProfile = () => {
 			<section className='cover-section'></section>
 			<section className='main-section'>
 				<div className='container'>
-					<form onSubmit={handlerSubmit} action='' className='form'>
-						<h3 className='text-center underlined underlined--sm'>
-							Edit Profile
-						</h3>
+					<h3 className='text-center underlined underlined--sm'>
+						Edit Profile
+					</h3>
+					<form onSubmit={handleSubmit} action='' className={classes}>
+						<div className='loader'></div>
 						<div className='input-img input-img--avatar'>
 							<img src={imgUrl} alt='' />
 							<input
@@ -113,7 +102,7 @@ const EditProfile = () => {
 							id='email'
 							value={edited.email}
 							onChange={(e) => {
-								setEdited({ ...edited, name: e.target.value });
+								setEdited({ ...edited, email: e.target.value });
 							}}
 						/>
 						<span className='error-message'>

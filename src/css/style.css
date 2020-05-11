@@ -48,6 +48,9 @@
 	}
 }
 
+.blocked {
+	position: relative;
+}
 .blocked::after {
 	content: '';
 	position: absolute;

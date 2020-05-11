@@ -5,35 +5,41 @@ const initialState = {
 	loaded: false,
 	profile: null,
 	token: '',
+	errors: {},
 	loginErrors: {},
 	registerErrors: {},
 	editErrors: {},
 };
 const userReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case TYPES.REGISTER_USER:
+		case TYPES.REGISTER_USER_SUCCESS:
 			return {
 				...state,
-				registerErrors: {},
+				errors: {},
 			};
-		case TYPES.REGISTER_USER_FAIL:
-			return {
-				...state,
-				registerErrors: action.payload,
-			};
-		case TYPES.LOGIN_USER:
+		case TYPES.LOGIN_USER_SUCCESS:
 			localStorage.setItem('token', action.payload.token);
 			return {
 				...state,
 				user: action.payload.user,
 				token: action.payload.token,
-				loginErrors: {},
+				errors: {},
 			};
-		case TYPES.LOGIN_USER_FAIL:
+		case TYPES.EDIT_PROFILE_SUCCESS: {
 			return {
 				...state,
-				loginErrors: action.payload,
+				user: action.payload.user,
+				errors: {},
 			};
+		}
+		case TYPES.REGISTER_USER_FAILURE:
+		case TYPES.LOGIN_USER_FAILURE:
+		case TYPES.EDIT_PROFILE_FAILURE: {
+			return {
+				...state,
+				errors: action.payload,
+			};
+		}
 		case TYPES.LOAD_USER: {
 			return {
 				...state,
@@ -59,19 +65,6 @@ const userReducer = (state = initialState, action) => {
 				...state,
 				user: null,
 				token: null,
-			};
-		}
-		case TYPES.EDIT_PROFILE: {
-			return {
-				...state,
-				user: action.payload.user,
-				editErrors: {},
-			};
-		}
-		case TYPES.EDIT_PROFILE_FAIL: {
-			return {
-				...state,
-				editErrors: action.payload,
 			};
 		}
 		case TYPES.FOLLOW_USER: {

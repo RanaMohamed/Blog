@@ -1,42 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Joi from '@hapi/joi';
 import * as _ from 'lodash';
 
 import { registerUser, registerUserErrors } from '../store/actions/userActions';
-import { emailRegex } from '../helpers/helper';
+import { registerSchema } from '../helpers/schemas';
 
 const Signup = (props) => {
-	const [user, setUser] = useState({ name: '', email: '', password: '' });
+	const errors = useSelector((state) => state.user.errors);
+	const pending = useSelector((state) => state.request.pending);
 
-	const errors = useSelector((state) => state.user.registerErrors);
+	const [user, setUser] = useState({ name: '', email: '', password: '' });
+	const [submitted, setSubmitted] = useState(false);
+
+	const classes =
+		pending && submitted ? 'signup form block blocked' : 'signup form block';
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (Object.keys(errors).length === 0)
+		if (submitted && !pending && _.isEmpty(errors)) {
 			setUser({ name: '', email: '', password: '' });
+			setSubmitted(false);
+		}
 	}, [errors]);
 
-	const schema = Joi.object({
-		name: Joi.string().required().messages({
-			'string.empty': 'Name should not be empty',
-			'any.required': `Name is required`,
-		}),
-		email: Joi.string().required().pattern(emailRegex).messages({
-			'string.pattern.base': 'Email is invalid',
-			'string.empty': 'Email should not be empty',
-			'any.required': `Email is required`,
-		}),
-		password: Joi.string().min(8).required().messages({
-			'string.empty': 'Password should not be empty',
-			'string.min': `Password should have a minimum length of {#limit}`,
-			'any.required': `Password is required`,
-		}),
-	});
-
-	const handlerSubmit = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const { error } = schema.validate(user, { abortEarly: false });
+		setSubmitted(true);
+		const { error } = registerSchema.validate(user, { abortEarly: false });
 		if (error) {
 			const err = _.keyBy(error.details, (e) => e.context.label);
 			dispatch(registerUserErrors(err));
@@ -46,7 +37,8 @@ const Signup = (props) => {
 	};
 
 	return (
-		<form onSubmit={handlerSubmit} action='' className='signup form'>
+		<form onSubmit={handleSubmit} action='' className={classes}>
+			<div className='loader'></div>
 			<h3 className='text-center underlined underlined--sm'>Signup</h3>
 			<label htmlFor='sName'>Name</label>
 			<input
@@ -59,7 +51,7 @@ const Signup = (props) => {
 				onChange={(e) => setUser({ ...user, name: e.target.value })}
 			/>
 			<span className='error-message'>
-				{errors['name']?.message || errors['name']?.msg}
+				{submitted && (errors['name']?.message || errors['name']?.msg)}
 			</span>
 			<label htmlFor='sEmail'>Email</label>
 			<input
@@ -72,7 +64,7 @@ const Signup = (props) => {
 				onChange={(e) => setUser({ ...user, email: e.target.value })}
 			/>
 			<span className='error-message'>
-				{errors['email']?.message || errors['email']?.msg}
+				{submitted && (errors['email']?.message || errors['email']?.msg)}
 			</span>
 			<label htmlFor='sPassword'>Password</label>
 			<input
@@ -85,7 +77,7 @@ const Signup = (props) => {
 				onChange={(e) => setUser({ ...user, password: e.target.value })}
 			/>
 			<span className='error-message'>
-				{errors['password']?.message || errors['password']?.msg}
+				{submitted && (errors['password']?.message || errors['password']?.msg)}
 			</span>
 			<input type='submit' className='btn' value='Signup' />
 		</form>

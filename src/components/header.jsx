@@ -10,7 +10,7 @@ const Header = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const logoutHandler = (e) => {
+	const handleLogout = (e) => {
 		e.preventDefault();
 		dispatch(logout());
 		history.push('/login');
@@ -77,7 +77,7 @@ const Header = () => {
 									</li>
 									<li>
 										<a
-											onClick={(e) => logoutHandler(e)}
+											onClick={(e) => handleLogout(e)}
 											href='/'
 											className='dropdown__item color-link'
 										>

@@ -14,11 +14,7 @@ const Modal = (props) => {
 		try {
 			setPending(true);
 			await deleteArticle(props.id);
-			if (params.id) {
-				dispatch(getArticles(params.id));
-			} else {
-				dispatch(getArticles());
-			}
+			params.id ? dispatch(getArticles(params.id)) : dispatch(getArticles());
 		} catch (error) {
 			setPending(false);
 		}

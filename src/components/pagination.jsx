@@ -14,7 +14,7 @@ const Pagination = () => {
 
 	const dispatch = useDispatch();
 
-	const handlerPageChange = (page) => {
+	const handlePageChange = (page) => {
 		dispatch(changePage(page));
 	};
 
@@ -25,7 +25,7 @@ const Pagination = () => {
 					<button
 						className='btn btn--dark'
 						disabled={currentPage === 1}
-						onClick={() => handlerPageChange(currentPage - 1)}
+						onClick={() => handlePageChange(currentPage - 1)}
 					>
 						Previous
 					</button>
@@ -35,7 +35,7 @@ const Pagination = () => {
 								<button
 									key={p}
 									className='btn btn--dark btn--sm'
-									onClick={() => handlerPageChange(p)}
+									onClick={() => handlePageChange(p)}
 								>
 									{p}
 								</button>
@@ -43,7 +43,7 @@ const Pagination = () => {
 								<button
 									key={p}
 									className='btn btn--dark btn--sm btn--outline'
-									onClick={() => handlerPageChange(p)}
+									onClick={() => handlePageChange(p)}
 								>
 									{p}
 								</button>
@@ -53,7 +53,7 @@ const Pagination = () => {
 					<button
 						className='btn btn--dark'
 						disabled={currentPage === pages.length}
-						onClick={() => handlerPageChange(currentPage + 1)}
+						onClick={() => handlePageChange(currentPage + 1)}
 					>
 						Next
 					</button>
