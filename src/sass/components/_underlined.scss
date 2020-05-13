@@ -1,0 +1,15 @@
+.underlined {
+  &:after {
+    content: '';
+    height: 1px;
+    width: 50px;
+    background-color: $lineColor;
+    display: block;
+    margin: 5rem auto;
+  }
+  &--sm {
+    &::after {
+      margin: 2rem auto;
+    }
+  }
+}

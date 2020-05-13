@@ -1,0 +1,38 @@
+.cover-section {
+	background-color: $primaryColor;
+	min-height: 170px;
+	&--img {
+		min-height: 700px;
+	}
+	&__content {
+		background-position: center;
+		position: fixed;
+		width: 100%;
+		min-height: 700px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #ffffff;
+		h1 {
+			color: #ffffff;
+		}
+		.container {
+			padding: 0 10rem;
+			@media screen and (max-width: 1200px) {
+				padding: 0 3rem;
+			}
+		}
+	}
+}
+
+.main-section {
+	position: relative;
+	background-color: $primaryBackgroundColor;
+	.container {
+		background-color: #ffffff;
+		box-shadow: $shadow;
+		padding: 6rem 15%;
+		position: relative;
+		top: -99px;
+	}
+}

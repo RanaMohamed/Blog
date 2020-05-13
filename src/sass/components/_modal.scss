@@ -1,0 +1,33 @@
+.modal {
+	background-color: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	&__body {
+		background-color: #ffffff;
+		padding: 5%;
+		max-width: 70rem;
+		width: 80%;
+		position: relative;
+	}
+	&__title {
+		margin-bottom: 5rem;
+	}
+	&__buttons {
+		text-align: right;
+		.btn:not(:last-of-type) {
+			margin-right: 1rem;
+		}
+	}
+	&__close {
+		position: absolute;
+		right: 5%;
+		top: 5%;
+	}
+}

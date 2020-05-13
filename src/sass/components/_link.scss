@@ -1,0 +1,38 @@
+.color-link {
+	transition: 0.1s;
+	&:hover {
+		color: $primaryColor;
+	}
+}
+
+.underline-link {
+	transition: 0.1s;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.shadow-link {
+	transition: 0.1s;
+	&:hover {
+		box-shadow: $secondaryShadow;
+	}
+}
+
+.navlink {
+	color: #ffffff;
+	padding: 1.6rem;
+	@media screen and (max-width: 1200px) {
+		padding: 1.6rem 1rem;
+	}
+	font-size: 1.1rem;
+	font-family: $secondaryFont;
+	text-transform: uppercase;
+	&:hover {
+		background-color: rgba(255, 255, 255, 0.1);
+		box-shadow: $secondaryShadow;
+	}
+	&.active {
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+}

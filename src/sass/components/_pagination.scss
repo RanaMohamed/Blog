@@ -1,0 +1,9 @@
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  .pages {
+    .btn:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+}

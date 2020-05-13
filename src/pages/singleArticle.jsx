@@ -75,18 +75,19 @@ const SingleArticle = (props) => {
 							<p className='author__desc'>{article.author?.desc}</p>
 							<div className='btns-row'>
 								{article?.author?._id !== loggedUser?._id &&
-								loggedUser?.following.indexOf(article?.author?._id) === -1 ? (
-									<button
-										className='btn btn--outline'
-										onClick={() => handleFollow(true)}
-									>
-										Follow Author
-									</button>
-								) : (
-									<button className='btn' onClick={() => handleFollow(false)}>
-										Unfollow Author
-									</button>
-								)}
+									(loggedUser?.following.indexOf(article?.author?._id) ===
+									-1 ? (
+										<button
+											className='btn btn--outline'
+											onClick={() => handleFollow(true)}
+										>
+											Follow Author
+										</button>
+									) : (
+										<button className='btn' onClick={() => handleFollow(false)}>
+											Unfollow Author
+										</button>
+									))}
 								<Link
 									to={`/profile/${article.author?._id}`}
 									className='btn btn--dark'

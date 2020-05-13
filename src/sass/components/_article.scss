@@ -1,0 +1,46 @@
+.article {
+	margin-bottom: 5rem;
+	&__author {
+		margin: 1rem 0;
+	}
+	&__img {
+		margin: 1rem 0;
+		img {
+			max-width: 100%;
+		}
+	}
+	&__actions {
+		float: right;
+		font-family: $secondaryFont;
+	}
+	&__body {
+		margin: 2rem 0;
+		> * {
+			margin-bottom: 3.6rem;
+		}
+		&--sm {
+			> * {
+				display: none;
+				&:first-child {
+					display: block;
+					display: -webkit-box;
+					-webkit-line-clamp: 4;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					-webkit-box-orient: vertical;
+				}
+			}
+		}
+	}
+	&__tags {
+		margin: 1rem 0;
+		.tag {
+			display: inline-block;
+			background-color: $secondaryBackgroundColor;
+			padding: 0.9rem 2rem;
+			font-size: 1.2rem;
+			margin-right: 1rem;
+			margin-bottom: 1rem;
+		}
+	}
+}

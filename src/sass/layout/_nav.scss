@@ -1,0 +1,11 @@
+.nav {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	.search {
+		.input {
+			width: 16rem;
+			margin-bottom: 1rem;
+		}
+	}
+}

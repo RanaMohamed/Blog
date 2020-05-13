@@ -1,0 +1,99 @@
+@font-face {
+	font-family: 'Josefin Sans';
+	src: url(../fonts/Josefin_Sans/static/JosefinSans-SemiBold.ttf)
+		format('truetype');
+}
+
+@font-face {
+	font-family: 'Domine';
+	src: url(../fonts/Domine/Domine-Regular.ttf) format('truetype');
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-family: $primaryFont;
+	font-size: 1.6rem;
+	line-height: 1.8;
+	color: $textColor;
+	word-break: break-word;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+	text-transform: uppercase;
+	color: $secondaryColor;
+	font-family: $secondaryFont;
+	line-height: 1.2;
+}
+
+h1,
+.h1 {
+	font-size: 4.8rem;
+}
+
+h2,
+.h2 {
+	font-size: 3.5rem;
+}
+
+h3,
+.h3 {
+	font-size: 1.5rem;
+}
+
+.text-center {
+	text-align: center;
+}
+
+blockquote {
+	border: $border !important;
+	padding: 10% !important;
+	font-size: 1.8rem;
+	position: relative;
+	overflow: visible !important;
+	font-style: normal !important;
+	&::before {
+		content: '\201D';
+		background-color: $primaryColor;
+		border-radius: 50%;
+		position: absolute;
+		top: -2rem;
+		left: calc(50% - 2rem);
+		height: 4rem;
+		width: 4rem;
+		text-align: center;
+		color: #ffffff;
+		font-size: 4rem;
+		line-height: 1.5;
+	}
+}
+
+i {
+	font-style: italic;
+}
+
+strong,
+b {
+	font-weight: bold;
+}
+
+.first-letter {
+	position: absolute;
+	font-size: 20rem;
+	transform: translate(-50%, calc(50% - 5rem));
+	top: 0;
+	opacity: 0.2;
+
+	&-contianer {
+		margin: 10rem 0;
+	}
+}

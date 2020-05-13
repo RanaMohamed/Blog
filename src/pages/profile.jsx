@@ -63,18 +63,21 @@ const Profile = (props) => {
 								<p className='author__desc text-center'>{user?.desc}</p>
 								<div className='btns-row underlined'>
 									{user?._id !== loggedUser?._id &&
-									loggedUser?.following.indexOf(user?._id) === -1 ? (
-										<button
-											className='btn btn--outline'
-											onClick={() => handleFollow(true)}
-										>
-											Follow Author
-										</button>
-									) : (
-										<button className='btn' onClick={() => handleFollow(false)}>
-											Unfollow Author
-										</button>
-									)}
+										(loggedUser?.following.indexOf(user?._id) === -1 ? (
+											<button
+												className='btn btn--outline'
+												onClick={() => handleFollow(true)}
+											>
+												Follow Author
+											</button>
+										) : (
+											<button
+												className='btn'
+												onClick={() => handleFollow(false)}
+											>
+												Unfollow Author
+											</button>
+										))}
 								</div>
 							</div>
 							<div ref={articlesRef}>

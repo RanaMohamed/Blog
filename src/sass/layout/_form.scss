@@ -1,0 +1,26 @@
+.forms {
+	display: flex;
+	flex-wrap: wrap;
+	.vl {
+		margin: 3rem;
+		@media screen and (max-width: 1200px) {
+			width: 100%;
+		}
+	}
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	label:not(:first-child) {
+		margin-top: 1rem;
+	}
+	.btn {
+		margin-top: 1rem;
+	}
+	.error-message {
+		color: #ff9494;
+		font-size: 1.1rem;
+	}
+}
