@@ -216,6 +216,9 @@ b {
 body {
   background-color: #f8f8f8; }
 
+img {
+  max-width: 100%; }
+
 .btn {
   display: inline-block;
   min-width: 16rem;
