@@ -8,9 +8,12 @@ const Pagination = () => {
 	const perPage = useSelector((state) => state.article.perPage);
 	const total = useSelector((state) => state.article.total);
 
-	const pages = Array(Math.ceil(total / perPage))
-		.fill()
-		.map((_, i) => i + 1);
+	const pages =
+		total &&
+		perPage &&
+		Array(Math.ceil(total / perPage))
+			.fill()
+			.map((_, i) => i + 1);
 
 	const dispatch = useDispatch();
 
